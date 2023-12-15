@@ -1,0 +1,199 @@
+<html>
+  <head>
+    <title>College Allotment Predictor using Machine Learning</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        background-color: beige;
+      }
+      .navbar {
+        background: linear-gradient(to right, #ff8c00, #ff4500);
+      }
+      .nav-link {
+        text-decoration: none;
+        color: black;
+        font-size: 1.3rem;
+        font-weight: 500;
+      }
+
+      .active-color {
+        color: white;
+        font-size: 1.6rem;
+      }
+      .navbar-brand {
+        text-decoration: none;
+        color: black;
+        font-size: 1.6rem;
+        font-weight: 700;
+      }
+      .nav-item {
+        transition: background 0.2s ease;
+      }
+      .nav-item:hover {
+        border-radius: 1.5rem;
+      }
+      .active {
+        background-color: white;
+        border-radius: 1.2rem;
+        font-size: 1.6rem;
+      }
+      .btn {
+        background-color: #ff8c00;
+      }
+      .btn:hover {
+        background: linear-gradient(to right, #ff8c00, #ff4500);
+        color: black;
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm mb-3">
+      <div class="container">
+        <a href="{{url_for('index')}}" class="navbar-brand"
+          >College Predictor</a
+        >
+        <button
+          class="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#Nav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="Nav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a href="{{url_for('index')}}" class="nav-link">HOME</a>
+            </li>
+            <li class="nav-item active">
+              <a href="{{url_for('colleges')}}" class="nav-link">COLLEGES</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{url_for('about')}}" class="nav-link">DETAILS</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{url_for('exam')}}" class="nav-link" id="about-link"
+                >EXAM</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="card bg-dark text-light p-3 mx-auto" style="max-width: 430px">
+        <h4 class="lead text-light font-weight-bold">
+          Please select a range to sort the colleges
+        </h4>
+        <hr class="bg-light" />
+        <form action="/sortedResults">
+          <div class="form-group mt-4">
+            <label class="form-label" for="start"
+              >Please specify the minimum percentage</label
+            >
+            <input
+              class="custom-range"
+              min="10"
+              max="100"
+              step="1"
+              value="1"
+              type="range"
+              id="myRange"
+              name="minpercentage"
+            />
+            <small type="text-muted" id="demo"></small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="end"
+              >Please specify the maximum percentage</label
+            >
+            <input
+              class="custom-range"
+              min="10"
+              max="100"
+              step="1"
+              value="1"
+              type="range"
+              id="myRange1"
+              name="maxpercentage"
+            />
+            <small type="text-muted" id="demo1"></small>
+          </div>
+          <div class="form-group">
+            <label for="branch" class="form-label"
+              >Please select your branch</label
+            >
+            <select class="form-control" name="branch">
+              <option value="Computer">Computer</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="branch" class="form-label">Caste</label>
+            <select class="form-control" name="caste">
+              <option value="GOPEN">GOPEN</option>
+              <option value="GOBC">GOBC</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="results"
+              >Provide the max results</label
+            >
+            <input
+              placeholder="Max results to fetch"
+              type="number"
+              name="results"
+              class="form-control"
+            />
+          </div>
+
+          <button class="btn btn-primary btn-block">SUBMIT</button>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script>
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("demo");
+    output.innerHTML = slider.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = function () {
+      output.innerHTML = this.value;
+    };
+  </script>
+  <script>
+    var slider1 = document.getElementById("myRange1");
+    var output1 = document.getElementById("demo1");
+    output1.innerHTML = slider1.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    slider1.oninput = function () {
+      output1.innerHTML = this.value;
+    };
+  </script>
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"
+  ></script>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="iit.css" /> -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='iit.css') }}" />
+    <title>College Details</title>
+    <style>
+      body {
+        background-color: beige;
+      }
+      .navbar {
+        background: linear-gradient(to right, #ff8c00, #ff4500);
+      }
+      .nav-link {
+        text-decoration: none;
+        color: black;
+        font-size: 1.3rem;
+        font-weight: 500;
+      }
+      /* .nav-link:hover {
+        color: orange;
+        font-size: 1.6rem;
+      } */
+      .navbar-brand {
+        text-decoration: none;
+        color: black;
+        font-size: 1.6rem;
+        font-weight: 700;
+      }
+      .nav-item {
+        transition: background 0.2s ease;
+      }
+      .nav-item:hover {
+        border-radius: 1.5rem;
+      }
+      .btn {
+        background-color: #ff8c00;
+      }
+      .btn:hover {
+        background: linear-gradient(to right, #ff8c00, #ff4500);
+        color: black;
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+      label {
+        font-size: 1.3rem;
+      }
+      .active {
+        background-color: white;
+        border-radius: 1.2rem;
+        font-size: 1.6rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm mb-3">
+      <div class="container">
+        <a href="{{url_for('index')}}" class="navbar-brand"
+          >College Predictor</a
+        >
+        <button
+          class="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#Nav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="Nav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a href="{{url_for('index')}}" class="nav-link">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{url_for('colleges')}}" class="nav-link">COLLEGES</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{url_for('about')}}" class="nav-link">DETAILS</a>
+            </li>
+            <li class="nav-item active">
+              <a href="{{url_for('exam')}}" class="nav-link">EXAM</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container-detail">
+      <label for="selectName">Select a name:</label>
+      <select id="selectName" class="dropdown">
+        <option value="">Select a name</option>
+        <option value="JEE MAINS">JEE MAINS</option>
+        <option value="MHT-CET">MHT-CET</option>
+        <option value="NEET">NEET</option>
+      </select>
+      <button onclick="handleDisplayDetails()" class="btn">
+        Display Details
+      </button>
+
+      <div id="displayDetails" class="display-container"></div>
+    </div>
+    <script>
+      const cityAr = [
+        {
+          id: 1,
+          exam_name: "JEE MAINS",
+          details: [
+            {
+              intro: `JEE Main 2024: NTA announced the JEE Main 2024 exam date online at nta.nic.in. The authority will conduct the JEE Main 2024 in two sessions - January and April 2024. Candidates will be able to check the JEE Main 2024 detailed notification soon. Aspirants who wish to get a BTech degree from NIT, IIT, IIIT, and GFTIs are required to apply and appear for the NTA JEE Main exam 2024. Along with the official notification, NTA is also expected to release details on JEE Main 2024 registration. Candidates will get to know the NTA JEE Main 2024 registration date at the official website. Candidates have to check the 75% criteria for JEE Mains 2024 before filling NTA JEE 2024 application form. The JEE Main eligibility criteria 2024 will be mentioned in the brochure. The JEE Mains eligibility criteria 2024 require candidates to have studied a minimum of 5 subjects namely Mathematics, Physics, Chemistry, Language, and one vocational subject with a minimum of 75% marks in aggregate. Further, there is no age limit to appear in the JEE Main 2024 exam.NTA JEE Main exam syllabus covers the topics from Physics, Chemistry, and Mathematics from Class 11 and 12. Along with the JEE Mains important topics 2024, candidates must also check the JEE Main 2024 exam pattern. The exam pattern of JEE Main helps candidates to know the type of questions asked in the exam, the marking scheme, time duration, the number of questions asked, and more. Candidates preparing for the Joint Entrance Examination Main are advised to solve the JEE Main mock test. Solving the JEE Mains 2024 mock test and previous year papers will help to know the type of questions asked and important topics for the exam. With the help of JEE Main sample papers, candidates will be able to achieve the time management required during the exam. Candidates have to read and follow the JEE Main preparation tips to score good marks in the IIT JEE exam.<img src="/static/intro.jpeg" alt="image">`,
+              eligibility: `NTA will release the JEE Main 2024 eligibility criteria in the official brochure at jeemain.nta.nic.in. As per previous year eligibility criteria of JEE Mains 2024, candidates who have scored 75% marks or are in the top 20 percentile in Class 12 of any recognized board will be eligible to get admission to the (NITs), (IIITs) and CFTIs. For SC / ST candidates, the qualifying marks should be 65%.The NTA JEE Main 2024 eligibility criteria must be satisfied before filling out the registration form. The JEE Main 2024 eligibility criteria consist of age limit, compulsory academic details, mandatory subject in class 12, minimum percentage, and more. However, candidates appearing in class 12 with results awaiting are also eligible to apply. Candidates must be among the top 2,50,000 in NTA JEE Main Paper-1 to be eligible for JEE Advanced 2024.<img src="/static/eligibility.jpeg" alt="image">`,
+              application: `NTA is expected to release the JEE Main 2024 application form in December 2023. The authority will update the JEE Main registration 2024 link at, jeemain.nta.nic.in. NTA JEE Main application process comprises of registration, form filling, uploading of documents, and payment of JEE Main registration fees. Candidates who have passed the class 12 or equivalent exam will be eligible to apply for JEE Main 2024. The application form of JEE Main 2024 will be available in online mode only. Candidates will be able to check the complete JEE Main 2024 application form date for sessions 1 and 2 at the official website. NTA has released the JEE Main 2024 exam date on its official website. NTA JEE Main 2024 exam will be held in January and April 2024.<img src="/static/application.jpeg" alt="image">`,
+              preparation: `Knowing JEE Main exam pattern and syllabus- The first step towards JEE Main preparation is to know the syllabus and exam pattern. With the help of NTA JEE syllabus and exam pattern, candidates will be able to know what type of questions asked in the examination. Creating a study time table- It is always advisable to create a study time table. Since the JEE Main exam has a lot of syllabus from class 11 and 12, candidates are required to create a time table providing time to each subject. Candidates have to focus more on their weaker areas during their preparation. Study material- In order to get admission in top NITs or IITs of India, or to qualify for JEE Advanced, candidates have to make sure they understand the fundamentals of the topics asked in JEE Main. For that, referring to JEE Main best books is essential. Attempt JEE Mains Mock Test - The mock test of JEE Main helps to boost the confidence as well as providing the knowledge of type of questions asked in the examination. Candidates who solve the mock tests of JEE Mains have a high chance to get good marks in the entrance examination. Revision notes- During studying, candidates should make sure they create short notes/revision notes. With the help of JEE Main revision plan, candidates will be able to revise the important points quickly.<img src="/static/preparation.jpeg" alt="image">`,
+              counselling:
+                "The JoSAA authorities will conduct the JEE Main 2024 counselling and seat allotment. Candidates who qualified the JEE Main exam 2024 have to complete their counselling registration as conducted by Joint Seat Allocation Authority (JoSAA). The authorities conducted six general rounds of counselling along with two mock rounds.To participate in the JoSAA counselling process 2024, applicants have to complete the registration and choice filling process. The authorities will conduct the seat allotment process based on the number of students who applied for a particular course, the number of seats available, and the rank of the candidates",
+            },
+          ],
+        },
+      ];
+      function handleDisplayDetails() {
+        const selectName = document.getElementById("selectName");
+        const selectedName = selectName.value;
+
+        const selectedCity = cityAr.find(
+          (city) => city.exam_name === selectedName
+        );
+
+        if (selectedCity) {
+          const displayContainer = document.getElementById("displayDetails");
+          const details = selectedCity.details[0]; // Assuming there's only one set of details for a selected exam
+
+          displayContainer.innerHTML = `
+      <h2>${selectedName}</h2>
+      <p class="paragraph-detail"><h2>Introduction:</h2> ${details.intro}</p>
+      <p class="paragraph-detail"><h2>Eligibility:</h2> ${details.eligibility}</p>
+      <p class="paragraph-detail"><h2>Application:</h2> ${details.application}</p>
+      <p class="paragraph-detail"><h2>Preparation:</h2> ${details.preparation}</p>
+      <p class="paragraph-detail"><h2>Counselling:</h2> ${details.counselling}</p>
+    `;
+        }
+      }
+    </script>
+  </body>
+</html>

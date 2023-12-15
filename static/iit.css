@@ -1,0 +1,134 @@
+.container-detail {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 6rem auto;
+  padding: 20px;
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown {
+  width: 50%;
+  padding: 10px;
+  margin: 10px auto;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: white;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+.dropdown:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+/* Style for dropdown arrow */
+.dropdown::after {
+  content: "\f0de";
+  font-family: FontAwesome;
+  padding-left: 10px;
+}
+
+/* Style for dropdown options */
+option {
+  background-color: white;
+  color: black;
+}
+
+/* Style for selected option */
+option:checked {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Hover effect for options */
+option:hover {
+  background-color: #f0f0f0;
+}
+
+/* Style for label */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  border-radius: 5px;
+  width: 50%;
+  margin: auto;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+}
+
+.display-container {
+  /* border: 1px solid #ccc; */
+  padding: 20px;
+  margin-top: 20px;
+  text-align: left;
+}
+.display-container:hover {
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.heading {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.paragraph-detail {
+  font-size: 16px;
+  color: #555;
+}
+h2 {
+  font-size: 24px;
+  color: #3498db;
+}
+
+/* Style for the college name */
+h2 + p {
+  font-size: 18px;
+  color: #333;
+  margin-top: -10px;
+}
+h2:hover {
+  color: #e74c3c;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+/* Adjust spacing */
+h2,
+p {
+  margin-bottom: 10px;
+}
+
+/* Initially hide the full content */
+#about .full {
+  display: none;
+}
+
+/* Show the "Read more" link */
+#about .dots,
+#about #read-more-link {
+  display: inline;
+}
+
+/* Hide the "Read less" link */
+#about #read-less-link {
+  display: none;
+}

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="iit.css" /> -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='iit.css') }}" />
+    <title>College Details</title>
+    <style>
+      body {
+        background-color: beige;
+      }
+      .navbar {
+        background: linear-gradient(to right, #ff8c00, #ff4500);
+      }
+      .nav-link {
+        text-decoration: none;
+        color: black;
+        font-size: 1.3rem;
+        font-weight: 500;
+      }
+
+      .navbar-brand {
+        text-decoration: none;
+        color: black;
+        font-size: 1.6rem;
+        font-weight: 700;
+      }
+      .nav-item {
+        transition: background 0.2s ease;
+      }
+      .nav-item:hover {
+        border-radius: 1.5rem;
+      }
+      .btn {
+        background-color: #ff8c00;
+      }
+      .btn:hover {
+        background: linear-gradient(to right, #ff8c00, #ff4500);
+        color: black;
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+      label {
+        font-size: 1.3rem;
+      }
+      .active {
+        background-color: white;
+        border-radius: 1.2rem;
+        font-size: 1.6rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm mb-3">
+      <div class="container">
+        <a href="{{url_for('index')}}" class="navbar-brand"
+          >College Predictor</a
+        >
+        <button
+          class="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#Nav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="Nav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a href="{{url_for('index')}}" class="nav-link">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{url_for('colleges')}}" class="nav-link">COLLEGES</a>
+            </li>
+            <li class="nav-item active">
+              <a href="{{url_for('about')}}" class="nav-link">DETAILS</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{url_for('exam')}}" class="nav-link" id="about-link"
+                >EXAM</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container-detail">
+      <label for="selectName">Select a name:</label>
+      <select
+        id="selectName"
+        class="dropdown"
+        onchange="handleNameChange(event)"
+      >
+        <option value="">Select a name</option>
+        <option value="Top 10 IIT">Top 10 IIT</option>
+        <option value="Top 10 NIT">Top 10 NIT</option>
+        <option value="Top 10 Private College">Top 10 Private College</option>
+      </select>
+
+      <label for="selectCity">Select a city:</label>
+      <select
+        id="selectCity"
+        class="dropdown"
+        onchange="handleCityChange(event)"
+      >
+        <option value="">Select a city</option>
+      </select>
+
+      <button onclick="handleDisplayDetails()" class="btn">
+        Display Details
+      </button>
+
+      <div id="displayDetails" class="display-container"></div>
+    </div>
+
+    <script>
+      const itemArr = [
+        // Same data as in your React code...
+        {
+          id: 1,
+          name: "Top 10 IIT",
+          detail: [
+            {
+              city: "IIT Madras",
+              about:
+                "IIT Madras is an institute of National Importance that was established in the year 1959. IIT Madras is an autonomous statutory institute administered by the IIT Council.  Indian Institute of Technology, Madras has ranked 1st in NIRF 2023 Overall Ranking. The institute offers a total of 111 courses, out of which 1 online course is offered at the diploma level, 37 courses are offered at the UG level, 58 courses are offered at the PG level, and 15 courses are offered at the doctoral level. Students seeking admission in any of these courses must meet the eligibility criteria and eligible students can apply for admissions by filling the online application form.",
+              course:
+                "Courses at IIT Madras are offered across multiple streams and disciplines. A total of 111 IIT Madras courses are offered across 4 levels i.e diploma, UG, PG and doctoral. Along with the full time courses, students can also pursue IIT Madras online degree in various disciplines. Students have to fill the online application form to apply for admission to any of the IIT Madras courses. The fee structure for IIT Madras B.Tech courses is Rs. 8,04,000 and for M.Sc. courses is Rs.14,000. The doctoral courses of IIT Madras are offered for a duration of 6 years. ",
+              admission:
+                "Admissions in this institute are offered to students based on the eligibility criteria for the particular course. Students who wish to get admission in a particular course must follow the prescribed steps of admission for that course. IIT Madras admissions are offered to a total of 111 courses. IIT Madras admission in B.E/B.Tech programmes are given based on JEE Advanced scores, in M.Tech/M.E programmes on the basis of GATE scores and in M.Sc programmes based on JAM scores obtained by the candidates. After the final admission, students will have to visit the campus for verification of documents and payment of IIT Madras fees.",
+              placement:
+                "IIT Madras has a placement cell that looks after all the placement-related activities. IIT Madras placement cell provides placement opportunities to the final year students. A number of reputed companies visit the IIT Madras every year to conduct the recruitment drive. The cell prepares students to appear before the recruiters for interviews by conducting regular seminars, workshops, webinars and mock interviews. According to the latest IIT Madras NIRF data, a total of 439 students were placed from the PG (2 Year) programme with a median salary of Rs. 13,00,000. And 107 students were placed from the PG (3 Year) programme, with a median salary of Rs. 11,94,000.",
+              facilities:
+                "The institute has quite a few facilities that facilitate a comfortable campus life experience for them. IIT Madras facilities include 20 hostels. Of the hostels, 5 are for females and 15 are for male students. The institute also has an olympic-standard swimming pool, a well-equipped gymnasium, a cricket ground, a vast stadium and a multipurpose indoor stadium. Apart from this, IIT Madras facilities also include a hockey & football field, two basketball courts, two volleyball courts and a table tennis facility.",
+              location:
+                "IIT Madras is located in Chennai, Tamil Nadu. The main entrance of the institution is on Sardar Patel Road. The nearest bus stop to IIT Madras is Taramani Bus Stop, at a distance of 6.7 km. Chennai Railway Station is the nearest railway station to IIT Madras, at a distance of 13.1km, which takes almost 34 minutes to cover the distance. The campus is 14.7 km away from the Chennai Airport, students can reach the campus in 20-25 minutes.",
+            },
+            {
+              city: "IIT Delhi",
+              about:
+                " Indian Institute of Technology, Delhi popularly known as IIT Delhi was established in the year 1961. The IIT Delhi is affiliated to University of Delhi. The institute has bagged the 3rd rank in the overall category and the 2nd rank in the engineering category as per NIRF 2023 data. The IIT Delhi offers various courses at UG, PG and Doctoral level. The IIT Delhi courses include B.Tech, B.Tech M.Tech,  M.E/M.Tech, M.S, M.Sc, and Ph.D. The candidates must satisfy the eligibility criteria. The IIT Delhi admissions will be based on the scores obtained in the entrance examination such as JEE Main/JEE Advanced/GATE/JAM/CSIR/UGC NET/ICAR/ICMR/CEED/DST-INSPIRE Fellowship. The institute offers various facilities on campus.",
+              course:
+                " Indian Institute of Technology, Delhi offers undergraduate, postgraduate and doctoral-level programmes. IIT Delhi courses are available in full-time, online, and part-time modes. IIT Delhi courses are available in various streams which include Engineering and Architecture, Sciences, Arts, Humanities and Social Sciences, Management and Business Administration, and Education.  IIT Delhi UG courses include B.Tech and B.Tech M.Tech while M. Tech, MS, and M.Sc are IIT Delhi PG courses. The college also offers Ph.D. The candidate should meet the IIT Delhi eligibility criteria. IIT Delhi fees and eligibility criteria depend on the course chosen by the candidate. IIT Delhi fees range from Rs 60,650 to Rs 9,02,000 ",
+              admission:
+                " The IIT Delhi college offers admissions for undergraduate, postgraduate and doctoral programmes. The IIT Delhi admissions are based on National-level entrance examinations. In order to get IIT Delhi admission for the desired the candidates must appear for the relevant entrance examination such as JEE Main/JEE Advanced/GATE/CSIR/ UGC NET/ICAR/ICMR/CEED/JAM. To get IIT Delhi B.Tech admission the candidate must appear for the JEE Main and JEE Advanced examination and secure a valid score. The IIT Delhi M.Tech/M.Sc admissions are based on GATE examination scores. The shortlisted candidate must attend the counselling procedure.  ",
+              placement:
+                "Indian Institute of Technology Delhi offers placements for all levels of students. The IIT Delhi has a separate placement cell which conducts the final placement activities on campus. According to the IIT Delhi NIRF report the number of students placed is 112 under the management category. The IIT Delhi median salary offered for PG students is RS 20.06 Lakhs. IIT Delhi placement offers have been increased by 20% from last year. Around 400 national and international organisations offered more than 800 job profiles across various sectors. The IIT Delhi placement cell conducts training & grooming sessions for students.",
+              facilities:
+                "The campus of IIT Delhi is spread across an area of 320 acres. The institute strives to provide its students with the topmost IIT Delhi facilities. The IIT Delhi facilities include an amphitheatre, swimming pool, music room, robotics room, club building, gymnasium hall, and many more. The campus consists of a fully functional central library that is accessible 24/7. The institute also comprises a fully functional laboratory with the most efficient technology which caters to the research and study needs of the students. IIT Delhi facilities also include well-equipped laboratories for each department with the latest technologies provided to students for applying and exploring their practical studies. ",
+              location:
+                " IIT Delhi Main Rd, IIT Campus, Hauz Khas, New Delhi, Delhi 110016",
+            },
+
+            {
+              city: " IIT Bombay",
+
+              about:
+                "Indian Institute of Technology (IIT) Bombay was established in 1958 in Powai, Mumbai (earlier known as Bombay) as the second IIT in all of India with external financial assistance. As per NIRF Rankings 2023, IIT Bombay has been ranked 10th in the management category, 3rd rank in engineering and 4th rank in the overall category. IIT Bombay courses are offered at UG, PG and doctoral levels and some of them include B.Tech, BS, B.Tech M.Tech and B.Des, M.Tech, M.Sc, M.B.A and M.Sc Ph.D and Ph.D. IIT Bombay admissions to B.Tech are done based on JEE Advanced scores. UCEED scores are considered for B.Des admissions. Valid scores in GATE and JAM are required for IIT Bombay admissions to M.Tech and M.Sc courses respectively. The IIT Bombay Ph.D admission process includes a written test followed by the interview process.",
+              course:
+                " Indian Institute of Technology (IIT), Bombay offers a total of 227 courses at the undergraduate, postgraduate and doctoral levels. IIT Bombay courses are offered in full-time mode only. IIT Bombay UG courses include B.Tech, BS, B.Tech M.Tech and B.Des. Similarly, M.Tech, M.Sc, M.B.A and M.Sc Ph.D are the IIT Bombay PG courses while Ph.D is the offered doctoral course. The streams in which IIT Bombay courses are offered are Engineering and Architecture, Computer Application and IT, Sciences, Animation and Design, Commerce, Arts, Humanities and Social Sciences and many more. ",
+              admission:
+                " The IITBombay college offers admission to UG, PG, Integrated and doctoral programmes. IIT Bombay accepts JEE Advanced scores for admission to B.Tech, BS and B.Tech M.Tech. Integrated programmes admission. UCEED scores are taken into consideration for IIT Bombay admission to the B.Des programme. Further, the Indian Institute of Technology Bombay M.Tech. admission is given on the basis of the candidates’ performance in GATE. First, candidates must meet the IIT Bombay eligibility criteria of the desired programme before applying for admission. IIT Bombay admission to M.Sc./M.Sc. Ph.D Integrated courses are based on marks obtained by candidates in JAM. ",
+              placement:
+                " The Training and Placement Office handle IIT Bombay Placements. With the help of officers, staff, and students, the placement office puts in tremendous effort to conduct the IIT Bombay placement process in a structured and coordinated manner. The recruiting firms made a total of 1898 job offers to students; from these, 1516 offers were accepted during IIT Bombay Placements 2022-2023. The IIT Bombay highest domestic package offered was INR 1.68 crore per annum and the highest international package offered was INR 3.67 crore per annum (USD 2.87 lakh).",
+              facilities:
+                " The infrastructure of the IIT Bombay is vital for the development of both institutions for education and research as well as students for overall development. The campus has modern and upgraded facilities for students. IIT Bombay facilities are modern classrooms, library, sports arenas, hostels etc. IIT Bombay is equipped with advanced laboratories and modern infrastructure so that the students can get hands-on experience with advancements in technology. A modern gym equipped with the latest equipment is also present at the campus. For students, a medical centre is also present at the campus. IIT Bombay facilities and infrastructure provide an amiable environment for students and faculty members. Indian Institute of Technology Bombay facilities list also includes a guest house and a cafeteria. ",
+              location:
+                " Indian Institute of Technology Bombay Main Gate Road, Powai Mumbai - 400076 Maharashtra, India ",
+            },
+
+            {
+              city: "IIT Kanpur ",
+              about:
+                " Indian Institute of Technology Kanpur was established in 1959 by the Government of India.  IIT Kanpur has been ranked 5th place in the overall category and 4th place in the engineering category as per NIRF 2023 report.IIT Kanpur courses include B.Tech., BS, B.Tech., M.Tech., M.Sc., Ph.D., M.Tech, M.S., M.Sc., M.B.A., M.Des and Ph.D. IIT Kanpur admissions for B.Tech programmes are done based on JEE Advanced scores. For the PG courses, the admissions are done based on GATE/ CEED/ JAM/ JMET scores. Indian Institute of Technology Kanpur admission to PhD programmes is done based on candidate performance in written test followed by the interview process. The college has a Students’ Placement Office (SPO) and Career Development Cell that looks after the IIT Kanpur placement processes.",
+              course:
+                " The Indian Institute of Technology Kanpur offers courses at undergraduate, postgraduate and doctoral courses. The IIT Kanpur courses are offered in streams of engineering, management, science, animation, design, arts, humanities and social sciences. The IIT Kanpur UG courses include B.Tech. and B.S. that last for 4 years. The college also offers dual degrees like B.Tech., M.Tech., M.Sc., Ph.D., and many more. The IIT Kanpur PG courses include M.Tech, M.S., M.Sc., M.B.A., and M.Des. The postgraduate courses last two years. The IIT Kanpur offers a 6-year Ph.D. programme. The candidate must meet eligibility criteria to apply for the courses. The IIT Kanpur fees vary from course to course.  ",
+              admission:
+                " The college offers admissions at the undergraduate, postgraduate, and doctoral levels. The IIT Kanpur admissions are done based on the performance of the candidate in the entrance examination. To be admitted to IIT Kanpur UG Courses, candidates must have valid JEE Advanced scores. There are different entrance examinations for different PG courses. IIT Kanpur PG selection process is done based on performance in GATE/ CEED/ JAM/ JMET. Then the candidate must attend the counselling process, followed by document verification and fee payment.",
+              placement:
+                " The IIT Kanpur college has successfully completed Phase 1 of placement season 2022-23. 1128 students have accepted job offers including 208 pre-placement offers. More than 250 companies participated in the IIT Kanpur placement drive 2022-23, of which 5+ startups, participated in phase 1 campus hiring and offered 1200 jobs.  74 international offers were also made during IIT Kanpur placements. The IIT Kanpur highest domestic salary package offered is Rs 1.9 Crores. Overall 33 offers above INR 1 Cr have been received from various international and national organisations during the IIT Kanpur placements 2022-2023. ",
+              facilities:
+                " The college has a sprawling campus, spread over 420 hectares in Kalyanpur outskirts of Kanpur. IIT Kanpur provides in campus education and has around 108 buildings on the campus which come up with facilities that are ultramodern for the students. IIT Kanpur facilities and infrastructure include academic blocks, hostels for accommodation of the students that are separate for boys and girls, library, canteen, sports grounds, auditorium, reading lounge, computer centre, central workshop, liquid helium facility, Virtual Instrument Cell, Central Cryogenic Facility and more. Apart from these IIT Kanpur facilities, the campus also has an IT infrastructure that is powerful which ensures that 24x7 connectivity of internet is available and is made accessible to faculties as well as students. Indian Institute of Technology Kanpur facilities provide a comfortable environment for students and faculty members. ",
+              location: " G66M+W5J, Kalyanpur, Kanpur, Uttar Pradesh 208016",
+            },
+
+            {
+              city: "IIT Roorkee",
+              about:
+                " Indian Institute of Technology, Roorkee was established in the year 1847. According to NIRF 2023, IIT Roorkee has secured 8th place in the overall category. Indian Institute of Technology, Roorkee offers courses at different levels such as undergraduate, postgraduate and doctoral levels in streams such as engineering and architecture, sciences, management and business administration, and animation and design. For IIT Roorkee admissions candidates must appear and secure a valid score in the entrance examinations such as JEE Advanced/GATE/CAT/JAM/CEED. Indian Institute of Technology Roorkee also provides scholarship opportunities to students including state and national-level scholarships. The Institute also provides placements to the students studying in their final year. IIT Roorkee highest salary package for the UG 4-year student stood at Rs. 17,00,000. Apart from these, there are various types of IIT Roorkee campus facilities that are offered to the students. ",
+              course:
+                " Indian Institute of Technology, Roorkee offers courses at undergraduate, postgraduate and doctoral levels. IIT Roorkee UG courses include B.Tech, B.Arch and dual degrees. IIT Roorkee PG courses include M.Tech, M.Arch, MBA, M.sc, M.Plan, M.Des. The Indian Institute of Technology, Roorkee also offers Ph.D. The duration of UG courses lasts from 4 years to 5 years. The duration of IIT Roorkee PG courses lasts for 2 years and PhD may last up to 6 years. The candidate must meet the IIT Roorkee eligibility criteria to apply for the courses.",
+              admission:
+                " Indian Institute of Technology, Roorkee offers admissions to undergraduate, postgraduate and doctoral courses. IIT Roorkee UG admissions are based on the scores of JEE Advanced. IIT Roorkee M.Tech admissions are based on the scores of GATE whereas IIT Roorkee MBA admissions are based on the scores of CAT. M.Sc admissions are based on JAM/ GAT-B and M.Des admissions are based on CEED/GATE scores. IIT Roorkee PhD admissions are based on UGC NET including lectureship and GATE or through National Level Examinations conducted by MHRD and its Agencies and Institutes.",
+              placement:
+                " Indian Institute of Technology, Roorkee provides various types of placement opportunities to the students studying in their final year. According to the IIT Roorkee NIRF data 2023 available, a total of 764 UG 4-year students were placed in the campus drive. The median salary package offered to the UG 4-year students is Rs. 17,00,000. Whereas, IIT Roorkee placement median salary package offered to the PG Integrated 5-year students is Rs. 22,54,000. Some of the major organisations that participated at the Indian Institute of Technology, Roorkee placement drive are IBM, Outlook, Infosys, Cognizant, Deloitte, Vedanta, NatWest and many more. ",
+              facilities:
+                " Indian Institute of Technology Roorkee has properly designed and planned facilities and infrastructure. Since IIT Roorkee is a technical institution, it is mandatory that the science and engineering departments mainly have laboratories that are well equipped and infrastructure that is world-class. IIT Roorkee facilities include hostels for boys and girls, banks, post office, central library and more. If we talk about IIT Roorkee infrastructure, the classrooms are well-equipped and so are the computer and mechanical labs. The institute keeps on upgrading its facilities and infrastructure so that students can develop personally and professionally.",
+              location:
+                " Indian Institute of Technology Roorkee Roorkee - Haridwar Highway, Roorkee - 247667, Uttarakhand, India.",
+            },
+
+            {
+              city: "IIT Kharagpur",
+              about:
+                " Indian Institute of Technology Kharagpur was founded in the year 1951 by the Ministry of Human Resource Development, Government of India. The IIT Kharagpur is placed 7th under the overall category in the NIRF Ranking 2023. The institute offers multiple courses at undergraduate, postgraduate, and doctoral level courses. The total number of IIT Kharagpur courses is 431. Students seeking admission for the desired course should fulfil the IIT Kharagpur eligibility criteria. Before applying for the IIT Kharagpur admissions candidate must appear for the appropriate entrance examination which includes JEE Advanced/GATE/JAM. The candidates will be shortlisted for IIT Kharagpur admission based on the scores secured in the entrance examination. The IIT Kharagpur fees vary from course to course.",
+              course:
+                " The Indian Institute of Technology Kharagpur offers a total of 431 courses. The college offers 251 online courses and 180 full time courses. IIT Kharagpur UG courses are B.Tech., B.S., and B.Arch. The PG courses include M.Sc. and M.Tech. The college courses are offered in full-time and online modes. The IIT Kharagpur courses are offered in Engineering and Architecture, Computer Application and IT, Sciences, Commerce, Animation and Design, Management and Business Administration and many other streams.",
+              admission:
+                " IIT Kharagpur offers a wide range of undergraduate, postgraduate, and doctoral programmes. IIT Kharagpur admissions are offered to courses such as B.Tech, B.S, B.Arch, M.Tech, M.Sc, B.Tech M.Tech, M.Sc Ph.D and Ph.D programmes. According to the IIT Kharagpur UG admission process, eligible students need to appear and obtain a valid rank in JEE Advance. Further, shortlisted students have to appear for the JoSAA counselling. Students must have passed Class 12th from a recognised with 75% marks in Science stream to be eligible for IIT Kharagpur B.Tech/B.A/B.Arch admissions. IIT Kharagpur M.Tech admission is offered based on the GATE scores. Indian Institute of Technology Kharagpur offers admission to dual degree programmes based on marks obtained in the entrance examination.",
+              placement:
+                " The Indian Institute of Technology Kharagpur has a Career Development Centre that conducts various programmes through career counselling to improve soft skills, professional communication, and personality. The Career Development Centre also helps the departments to organise competitions, speeches by leaders in the field, seminars focused on curriculum-oriented career prospects (COCP), and workshops in specific niches. The CDC also assists in resume writing. Many top companies visit the campus during the IIT Kharagpur placement drive. Every year, more than 1500 students are hired by more than 250 leading companies with the finest pay packages.",
+              facilities:
+                "IIT Kharagpur facilities include separate hostels for boys and girls, a library, cafeteria, classrooms and labs, sports, auditoriums and many more. Indian Institute of Technology Kharagpur also has sports facilities for students who want to participate in sports. Students can participate in sports such as hockey, football, cricket and athletics. Apart from these, Indian Institute of Technology Kharagpur campus also has a fully modernized aquatic centre for sports like swimming and water polo. All everyday necessities can be found inside the IIT Kharagpur campus' Tech Market, which is a one-stop shop. Five kilometers away from the IIT Kharagpur campus, there are markets that are conveniently reachable in case of special needs.",
+              location:
+                " Indian Institute of Technology Kharagpur Kharagpur - 721302 West Bengal, India ",
+            },
+
+            {
+              city: " IIT Guwahati ",
+              about:
+                " The Indian Institute of Technology, Guwahati, was established in 1994. It offers a total of 167 courses out of which 15 courses are offered at the undergraduate level, 38 courses are offered at the postgraduate level and 16 courses are offered at doctoral levels. Admissions to various programmes are done based on the performance of the candidate in the entrance examination. IIT Guwahati was ranked 9th in the research and overall categories by NIRF 2023. The IIT Guwahati has secured 7th place in the engineering category in NIRF 2023. The IIT Guwahati provides scholarship opportunities to students. The IIT Guwahati also provides placements and internships to students.",
+              course:
+                " The Indian Institute of Technology, Guwahati, offers a total of 167 courses at the undergraduate, postgraduate, and doctoral levels. 15 courses are offered at the undergraduate level, 38 courses are offered at the postgraduate level, and 16 courses are offered at the doctoral level. IIT Guwahati UG courses include B.Tech. and B.Des. IIT Guwahati PG courses are M.A., M.S., M.Sc., M.Tech, M.Des, and M.B.A., and the college also offers Ph.D. courses as well. The duration of courses ranges from 2 years to 6 years. The candidate must meet IIT Guwahati eligibility criteria to apply for the courses. ",
+              admission:
+                "R The Indian Institute of Technology, Guwahati, offers admissions at the undergraduate, postgraduate, and doctoral levels. The IIT Guwahati courses include B.Tech, B.Des, M.A., M.S., M.Sc., M.Tech, M.Des, M.B.A, Dual degrees and Ph.D. The IIT Guwahati selection process for B.Tech. is based on JEE Advanced. Admissions to B.Des. are based on the performance in UCEED. The IIT Guwahati M.Tech. admissions are done based on valid GATE scores whereas M.Sc. admissions are done through JAM. ",
+              placement:
+                " The Indian Institute of Technology, Guwahati, has a Centre for Career Development (CDC), which manages all matters related to placements. The CCD of the IIT Guwahati placements wing sends an invitation to the companies and recruiters alongside other relevant information and asks them to register on the placement portal of the IIT Guwahati campus. During the IIT Guwahati placement drive, companies come to the campus on the allotted date(s) and conduct tests and/or interviews in accordance with the recruitment processes.During the IIT Guwahati placement process, the candidates also undergo six months of internship in the 8th semester. These internships will provide the students with an immense amount of exposure to the professional world. The companies visiting the IIT Guwahati placement drive are Signion, Simplilearn, TCS, Tekion, UpGrad, and many more.",
+              facilities:
+                " The college offers a plethora of facilities for its students and faculty. From academic facilities to sports, they have it all for their students. The IIT Guwahati facilities are robust and modern and offer a comfortable environment for students. IIT Guwahati facilities include a central library, gym, auditorium, WIFI, sports grounds, labs, classrooms, stadiums, hospital, commercial complex etc. The accommodation facility at IIT Guwahati is quite good, since there are separate rooms provided to every student. A total of 2 girls hostel and ten boys hostel is situated inside the campus, with every hostel having its own mess facilities. There are various inter-hostel events conducted every year as well, which keep the students engaged and helps them develop an all-round perspective.  The internet facility provided is also quite efficient, with high-speed Wi-fi and a computer lab available 24-7 for the students. Indian Institute of Technology Guwahati facilities make sure students do not face any inconvenience at the campus. ",
+              location:
+                " Indian Institute of Technology Guwahati Amingaon, North Guwahati Guwahati - 781039 Assam, India ",
+            },
+
+            {
+              city: " IIT Hyderabad",
+              about:
+                " Indian Institute of Technology (IIT), Hyderabad was established in the year 2008. It is also known as IITH or IIT Hyderabad.  IIT Hyderabad is an Institute of National Importance. According to NIRF 2023, IIT Hyderabad ranked 14 in the overall category and 8th in the engineering category. It is a government institute that offers undergraduate, postgraduate and doctoral programmes in engineering and architecture, sciences, arts, humanities and social sciences and animation and design streams. IIT Hyderabad admissions to UG and PG courses is offered based on various national level entrance exams. During IIT Hyderabad placements 2022, the highest and average packages were Rs. 65.46 LPA and average package is Rs. 20.73 LPA. ",
+              course:
+                "Indian Institute of Technology (IIT), Hyderabad offers a total of 78 courses at undergraduate, postgraduate and doctoral levels. IIT Hyderabad courses are offered in full-time, part-time and online modes. IIT Hyderabad courses are offered in engineering and architecture, sciences, arts, humanities and social sciences and animation and design streams. IIT Hyderabad UG courses are B.Tech and B.Des.The duration of the IIT Hyderabad B.Tech course is 4 years. IIT Hyderabad PG courses M.Tech, M.Sc, M.A, M.Des and M.Phil. The duration of IIT Hyderabad PG courses is 2 years. IIT Hyderabad PhD courses are offered in 13 specialisations. The duration of  IIT Hyderabad PhD courses is 6 years. IIT Hyderabad course fee for B.Tech is Rs. 8,90,000. However, the IIT Hyderabad fee structure for M.Tech is Rs. 68,300. ",
+              admission:
+                " Indian Institute of Technology (IIT), Hyderabad provides admission to B.Tech, B.Des, M.Tech, M.Sc, M.A, M.Phil and Ph.D programmes. IIT Hyderabad admissions are done on the basis of entrance exams. For IIT Hyderabad B.Tech admission candidates must qualify the JEE Main + JEE Advanced followed by JoSAA counselling. Admission to B.Des is based on UCEED scores. IIT Hyderabad admission to M.Sc is done on the basis of JAM. IIT Hyderabad M.Tech admissions are offered on the basis of the candidate's score in GATE. Admission to M.Des is based on a CEED exam score. IIT Hyderabad admission to the M.A programme is offered on the basis of a written test followed by an interview conducted by the Department of Liberal Arts. For IIT Hyderabad PhD admission, candidates have to appear for a written test and/or an interview conducted by the institute.",
+              placement:
+                " Indian Institute of Technology (IIT), Hyderabad has an Office of Career Services (OCS) that handles the entire campus placement drive. Every year various organisations like HP, Microsoft, Deshaw, Amazon and Accolite participate in IIT Hyderabad placement drive. During IIT Hyderabad placement 2022, a total of 138 recruiters visited the campus for placement and 540 students got placed. IIT Hyderabad highest salary package offered was Rs. 65.46 LPA. However, the  IIT Hyderabad average package stood at Rs. 20.73 LPA. The below table shows the IIT Hyderabad placement 2022.",
+              facilities:
+                " Indian Institute of Technology Hyderabad facilities and infrastructure aid a student's growth into becoming skilled professionals. Apart from comfortable accommodation, the campus is well equipped to ensure the overall development of the students. Alongside regular IIT Hyderabad facilities like wifi connectivity, libraries, sports facilities, and medical help, the university campus has been designed with radiant cooling techniques. Students can get hands-on experience working on real case studies and experiments in the labs and look after their health by accessing the gym facilities. The truth is that these IITH facilities play a crucial role in enhancing both teachers' and students' job performance. In such a situation, it will be prudent for us to evaluate the role of the various campus facilities and discuss their impact on building a bright future for students.",
+              location:
+                "IITH Road, Near NH-65, Sangareddy, Kandi, Telangana 502285.",
+            },
+
+            {
+              city: " IIT BHU ",
+              about:
+                " Indian Institute of Technology Banaras Hindu University, Varanasi, was established in 1919 as Banaras Engineering College. IIT BHU was ranked 15th in the engineering category in the NIRF ranking for 2023. The college offers a total of 76 courses at undergraduate, postgraduate and doctoral levels. The IIT BHU Varanasi courses include B.Tech., B.Arch., B.Tech+M.Tech., M.Tech., and Ph.D. The IIT BHU Varanasi admissions are done based on the performance of the candidate in the entrance examination. The IIT BHU Varanasi scholarships are offered to provide financial assistance to eligible candidates. Training and Placement Cell (TPC) helps the students in placement drives.",
+              course:
+                " The flagship program at IIT BHU is BTech. Admission to the majority of these programmes is determined through entrance examinations.For B.Tech- The candidate must qualify the 10+2 with a minimum of 75% marks.+JEE Advanced. For ST/ST/PwD - 10% relaxation in the marks.B.Arch- The candidate must qualify the 10+2 with a minimum of 75% marks.+JEE Advanced / NATA. For ST/ST/PwD - 10% relaxation in the marks.B.Tech + M.Tech- The candidate must qualify the 10+2 with a minimum of 75% marks. +JEE Advanced. For ST/ST/PwD - 10% relaxation in the marks.M.Tech- The candidate must have Bachelor’s degree with minimum of 55% marks.+GATE Ph.D- The candidate must have Master’s degree in the relevant discipline with minimum of 60% marks or 6.0 CPI.OrThe candidate must have bachelors  degree in the relevant discipline with minimum of 75% marks or 7.5 CPI.",
+              admission:
+                " The Indian Institute of Technology Banaras Hindu University, Varanasi offers admissions at the undergraduate, postgraduate, and doctoral levels. The admissions of IIT BHU Varanasi are done based on the performance of the candidate in the entrance examination. The IIT BHU Varanasi B.Tech. admissions are done based on valid JEE Advanced scores. The selection process for B.Arch is done based on valid JEE Advanced/ NATA scores. The admissions to PG courses are done based on the performance of the candidate in GATE. Similarly, IIT BHU Varanasi Ph.D. admissions are done based on GATE or GPAT/NET-LS/CSIR/UGC NET JRF/ICMR JRF/DBT-JRF/DST-INSPIRE fellowship.",
+              placement:
+                " The Indian Institute of Technology Banaras Hindu University, Varanasi, has a placement cell that is responsible for the placements of the students. Reaching out to companies, organising their visits, carrying out IIT BHU Varanasi placement activities, and managing all formal correspondence with recruiters and students are a few of the important responsibilities that the Coordination Committee, IIT BHU Varanasi Placement-Cell team, and student representatives perform. The placement cell invites companies like Google, Paytm, Flipkart, Microsoft, ITC, and many more.",
+              facilities:
+                " The 1300 acres campus of IIT BHU offers a wide range of facilities and infrastructure that includes all the academic necessities along with recreational areas. IIT BHU facilities provides a comfortable environment for students. The institute campus is surrounded with lush green campus that is pleasant and calm for its students. they provide full residential facilities to students from across the country, and the environment of the campus encourages students to learn and grow in the most efficient way. IIT BHU facilities list also includes separate hostel for boys and girls with Wifi connectivity and indoor play areas are provided to students. Sports facilities of both indoor and outdoor for student recreational time along with gym is offered on the campus. IIT BHU has libraries with lots of books from research publications to education contents that are necessary and vital for students’ knowledge development. Indian Institute of Technology BHU facilities help in the overall development of students.",
+              location:
+                " Indian Institute of Technology (BHU) Varanasi Banaras Hindu University Campus Varanasi - 221005 Uttar Pradesh, India ",
+            },
+
+            {
+              city: " IIT Dhanbad ",
+              about:
+                " Indian Institute of Technology (ISM), Dhanbad was established in the year 1926. It is an Institute of National Importance located in Dhanbad, Jharkhand. According to NIRF 2023, IIT Dhanbad is placed 42nd overall and 17th in engineering. IIT Dhanbad offers various UG, PG, and doctoral courses in various fields such as engineering, science, and management. For admission to various IIT (ISM) Dhanbad courses, it accepts the entrance exam score of JEE Advance/CAT/JAM/GATE. IIT Dhanbad provides both merit and need-based scholarships to deserving and needy students. As per the IIT Dhanbad placement 2022, the highest package of Rs. 50 LPA was offered to the students and the average package stood at Rs.17.3 LPA.",
+              course:
+                " Indian Institute of Technology (Indian School of Mines), Dhanbad offers undergraduate, postgraduate and doctoral programmes. IIT (ISM) Dhanbad courses are offered in full-time mode. IIT Dhanbad courses are offered in several fields like engineering, computer application and IT, management and business administration, sciences, arts, humanities and social sciences and medicine and allied sciences. IIT Dhanbad UG courses are B.Tech, B.Tech and M.B.A Mining Engineering and B.Tech M.Tech (dual degree). The duration of the B.Tech programme is 4 years. IIT Dhanbad PG courses include M.B.A, M.Tech and M.Sc. The course duration of the M.Tech programme is 2 years. IIT Dhanbad courses at the doctoral level include Ph.D programmes in 22 specialisations. The duration of Ph.D programme is 6 years. IIT Dhanbad fee structure for the M.B.A programme is Rs. 14.30 lakhs. Mentioned below are the IIT (ISM) Dhanbad courses, fees along with eligibility criteria. ",
+              admission:
+                " Indian Institute of Technology (Indian School of Mines), Dhanbad offers admission to undergraduate, postgraduate and doctoral programmes in the field of engineering, science, and management. IIT Dhanbad admissions are based on national-level entrance exams such as CAT, JEE Advanced, GATE, and JAM. IIT Dhanbad B.Tech admission is offered based on both JEE Main as well as JEE Advanced and later candidates are required to participate in the JoSAA counselling for the final seat allotment. IIT Dhanbad admission to M.Tech is based on GATE score followed by COAP counselling process. Admission to IIT Dhanbad M.Sc/M.Sc Tech is based on the IIT JAM score and JAM counselling.",
+              placement:
+                " The Indian Institute of Technology, Dhanbad, has a Career Development Centre that looks after the placements of students. The Career Development Centre (CDC) is committed to assisting students in developing their careers by offering them favourable placement opportunities. It also exposes students to avenues for better preparation by holding various training sessions and interactive workshops to encourage student participation and assist them in obtaining better employment, pursuing entrepreneurship, and advancing their careers through IIT Dhanbad placement drives. CDC aids in the development of hard and soft skills by utilising faculty from the institution and outside sources.The students of IIT Dhanbad complete summer internships in numerous top companies as part of their programme. Other programmes' students also participate in internships to add to their educational experience. Through many company visits, students are frequently exposed to the newest industrial techniques. The companies that visit the IIT Dhanbad placement drive are Tata Motors, Microsoft, Google, Amazon, Flipkart, IBM, Samsung, Walmart, Tata Steel, Disney Hotstar, and many more. ",
+              facilities:
+                " Spread over 218 acres of land at IIT (ISM), Dhanbad strives to provide the best education along with world-class facilities to its students. Indian Institute of Technology (ISM) Dhanbad facilities and infrastructure consists of a central library, sports arenas, well-equipped classrooms and laboratories, hostels, recreational centres, etc. There are 9 hostels on the campus having a facility for accommodation for girls and boys separately. The Central Library which is open 12 hours a day has a huge database of books, journals, thesis, research papers, etc. They also have licensed e-resources. ",
+              location:
+                " shop no. 4, IIT (ISM, RD, Kalyanpur, Jharkhand 826004) ",
+            },
+          ],
+        },
+
+        {
+          id: 2,
+          name: "Top 10 NIT",
+          detail: [
+            {
+              city: "NIT Trichy",
+              about:
+                " National Institute of Technology Tiruchirappalli was established in 1964 by the Government of India. It was formerly known as Regional Engineering College situated in Tamil Nadu. NIT Trichy is an 'Institute of National Importance'. The NIT Trichy ranked 21st under the overall category, 9th under the engineering category, 22nd under the research category, 35th under the management category, and 4th under the management category in NIRF 2023 Ranking. It is an autonomous co-educational technological institute that offers undergraduate, postgraduate and doctoral programmes in engineering, management, sciences, humanities, and architecture streams. NIT Trichy admissions to various courses are based on national-level entrance exams like JEE Main, GATE, JAM and NIMCET. The institute also offers scholarships to meritorious and needy students under several categories",
+              course:
+                "National Institute of Technology Tiruchirappalli offers undergraduate, postgraduate and doctoral level programmes. NIT Trichy courses are offered in the fields of engineering and architecture, sciences, arts, humanities and social sciences, computer application and IT. NIT Trichy courses include B.Tech, B.Arch, M.Tech, M.S, M.Sc, M.Arch, M.A, M.C.A and Ph.D. NIT Trichy fees range from Rs. 67,800 to Rs. 5.7 lakhs",
+              admission:
+                "National Institute of Technology Tiruchirappalli offers admission to UG, PG and doctoral-level programmes. Admission to B.Tech and B.Arch is offered on the basis of JEE Main followed by JoSAA counselling. NIT Trichy admission to M.Tech and M.Arch is done based on GATE score followed by CCMT counselling. For admission to M.Sc programmes, candidates have to appear for JAM followed by CCMN counselling. Admission to Ph.D programmes is done on the basis of an initial screening followed by their performance in the written test/interview/counselling to be conducted offline/online",
+              placement:
+                " National Institute of Technology Tiruchirappalli has a training and placement department that ensures interaction between candidates and companies by coordinating visits, projects, training and seminars for students. The NIT Trichy placement committee also bridges the gap between the participants and the companies and serves to ensure a smooth placement process. During NIT Trichy placements (NIRF Report 2022), a total of 563 students from the UG 4-year programme were placed in the year 2021 with a median salary of Rs 10,80,000. However, a total of 470 students from the PG 2-year programme were placed in the year 2021 with a median salary of Rs. 7,00,000",
+              facilities:
+                "National Institute of Technology Tiruchirappalli have well-maintained infrastructural facilities at the campus for the students to make their life comfortable and conducive to learning. NIT Trichy facilities include multiple hostels for boys and girls equipped with basic facilities. NIT Trichy campus facilities include a well-equipped sports centre, swimming pool, library and several other recreational facilities. The institute has a hospital with an ambulance in service throughout the day. There is also an auditorium that is available to all students and staff for all the major events of the institute. IT infrastructure, guest room, transport facility, shopping center, and swimming pool are some other NIT Trichy facilities",
+              location:
+                "National Institute of Technology Tiruchirappalli is located at Tanjore Main Road, NH67, near BHEL, Tiruchirappalli, Tamil Nadu. The nearest bus stand to NIT Trichy is TNSTC Bus Stop, at a distance of 1.5 km taking almost 3 minutes to cover the distance. Tondamanpatti is the nearest railway station to the institute, at a distance of 7.1 km, taking 16 minutes to cover the distance. The Tiruchirappalli International Airport is 23.8 km from the institute. The distance between the airport and institute is about 31 minutes",
+            },
+            {
+              city: "NIT Calicut",
+              about:
+                "The National Institute of Technology Calicut is an Institute of National Importance established in 2002. The college is placed at 54th position in the overall category, 23rd position in the engineering category, 75th position in the management category and 2nd position in the architecture category as per NIRF 2023 Ranking. NIT Calicut offers 54 courses in Engineering and Architecture, Computer Application and IT, Animation and Design, Sciences, Management and Business Administration streams. National Institute of Technology Calicut admissions are offered to students based on their performance in the entrance examinations namely JEE Main/GATE/NIMCET/CAT. Among the NIT Calicut courses are B.E/B.Tech, B.Arch, M.C.A, M.E/M.Tech, M.Plan Urban Planning and many others. The institute has separate hostel facilities for boys and girls to accommodate outstation students",
+              course:
+                " There are 54 undergraduate, postgraduate, and doctoral programmes available at the institute. NIT Calicut UG, PG & doctoral programmes are offered in various streams. Structural Engineering, Transportation Engineering, Computer Science Engineering, Instrumentation and Control Engineering, Power Engineering, and Power Electronics are among the engineering programmes available at NIT Calicut. The fees at NIT Calicut vary depending on the length of the course and the level of the programme ",
+              admission:
+                " Regular Engineering and Architecture, Computer Application and IT, Animation and Design, Sciences, Management, and Business Administration courses are available at the National Institute of Technology Calicut. Admission to NIT Calicut's B.Tech programme is based on JEE Main scores. GATE is required for M.Tech/M.Plan admissions at National Institute of Technology Calicut. Admission to M.Sc programmes at NIT Calicut is done through a counselling process based on the results of the Joint Admission Test for M.Sc. ",
+              placement:
+                " Every year, the placement committee at NIT Calicut organises a placement drive to assist students in obtaining job offers from well-known companies. The placement committee at NIT Calicut educates students through a variety of activities such as group discussions, mock interviews, guest lectures, seminars, and so on. The National Institute of Technology Calicut placement committee cultivates strong relationships with reputable organisations and ensures that students are placed appropriately ",
+              facilities:
+                "The campus of NIT Calicut is well-equipped with facilities and amenities. The institute provides all the facilities to the students including library, separate hostels for boys and girls, gym, auditorium and other amenities. On campus, NIT Calicut has sports and gym complexes. The institute has an auditorium for all extracurricular activities and seminars. There are departmental based laboratories and guest rooms on the campus. The institute has a health centre for the students and faculty members",
+              location:
+                "National Institute of Technology Calicut is located at 8WCM+JFJ, Calicut Mukkam Road, Kattangal, Kerala. The nearest airport to the institute is Calicut International Airport. It is located 28.4 km away from the campus. With a distance of 21.1 km, Vellayil Railway Station is the closest railway station to NIT Calicut. The institute is located at a distance of 14.4 km away from the Ngo Quarters Bus Stop",
+            },
+
+            {
+              city: "NIT Surathkal",
+              about:
+                "The National Institute of Technology Karnataka (NITK) Surathkal was formerly known as Karnataka Regional Engineering College (KREC) Surathkal. The NITK Surathkal was established in the year 1960. The NITK Surathkal has been ranked 12th in Engineering and 38th rank in the overall category in NIRF 2023. The NITK Surathkal offers multiple courses in various disciplines. The NIT Surathkal courses include undergraduate, postgraduate, and doctoral-level courses. The candidates should meet the NITK Surathkal eligibility criteria to get admitted for the desired course. The NITK Surathkal fees depend on the course chosen by the candidate. The NIT Surathkal admissions will be based on the scores obtained in the entrance examination such as JEE Main/CAT/MAT/GATE/JAM/NIMCET/NET/UGC-CSIR exam/DAE- JEST",
+
+              course:
+                "The National Institute of Technology offers various courses and each course has a separate eligibility criteria. The NIT Surkthal courses are offered in full-time mode. The duration of NIT Surathkal B.Tech courses is 4 years. Whereas all the NIT Surathkal PG courses offered by the university are 2 years. The NITK Surathkal courses are available in various branches such as chemical engineering, civil engineering, chemistry, information technology, general management, and many other branches.",
+              admission:
+                "To get admitted for the desired course the candidate should appear for the relevant entrance examination. NIT Surathkal B.Tech admission is dependent on JEE Main results. GATE and NIMCET results are used to determine admission to M.Tech. and M.C.A. programmes, respectively. Candidates who intend to join the M.B.A. programme must prepare for and receive a valid score on the CAT or MAT. The qualified candidates should attend the counselling procedure.",
+              placement:
+                "The institute has a separate career development centre that prepares students for final placements. The NITK Surathkal placement cell training includes training on soft skills, personality development, group discussion, resume writing, interview skills, aptitude tests, and many others. Seminars, webinars, and presentations are conducted by faculty and industry experts. The NIT Surathkal also provides students with career counselling. The NIT Surathkal placement cell organises various activities to build confidence in students.",
+              facilities:
+                "The institute offers well-structured facilities for students, staff and faculty on campus. The NITK Surathkal facilities include separate hostels for boys and girls, a library with a huge collection of books, magazines, journals and many others, laboratories for each department, medical/hospital, sports and many other facilities. The NITK Surathkal sports facilities include indoor and outdoor games like badminton, volleyball, football, chess, and many others. The NIT Surathkal facilities include a medical/hospital that offers first-aid assistance and serves the candidates on campus.",
+              location:
+                "The National Institute of Technology Karnataka is on National Highway 66 and is located in Karnataka's coastal belt. It is around 22 kilometres from Mangalore and is on the way to Udupi. Mangalore International Airport is 19.4 kilometres away, while Mangalore Railway Station is 19 km away. The Surathkal Bus Stop is located three km from the campus",
+            },
+
+            {
+              city: "NIT Warangal",
+
+              about:
+                "National Institute of Technology Warangal (NIT Warangal or NITW) was established in the year 1959. The institute is recognised as an institute of national importance by the GOI. NIRF 2023 Ranking of NIT Warangal 53rd in the overall category and 21st in the engineering category. is NIT Warangal offers B.Tech, M.Sc Integrated, M.Tech, M.B.A, M.C.A, M.Sc and Ph.D programmes. It provides a wide range of scholarship opportunities to assist students financially. These scholarships and financial aid are given on both merit and need-based. NIT Warangal currently has 13 academic departments and a few advanced research centres and nearly 100 laboratories. The Centre for Career Planning & Development (CCPD) at NIT Warangal is an active placement cell that conducts placement drives. During the NIT Warangal placement drive, students are given lucrative salary packages.",
+
+              course:
+                "NIT Warangal offers 76 undergraduate, postgraduate and doctoral programmes. National Institute of Technology, Warangal courses are offered in several fields such as engineering, computer application and IT, management and business administration, sciences, animation and design, arts, humanities and social sciences. NIT Warangal course list includes B.Tech, M.Sc Integrated, M.Tech., M.B.A, M.C.A, M.Sc. and Ph.D",
+              admission:
+                "NIT Warangal offers admission to UG, PG and doctoral-level programmes. The NIT Warangal admissions to the B.Tech and M.Sc Integrated are based on the JEE Main scores. To get admission into the  M.Tech programme, the candidates must obtain a valid GATE score and participate in CCMT counselling. admissions to the M.Sc programme is done through CCMN counselling based on the JAM score. The NIT Warangal M.B.A admission is based on CAT/MAT scores followed by GD and PI. Candidates must appear in NIMCET and obtain a valid rank to get admission to the M.C.A programme. Admissions to the Ph.D programme are based on the score in a written test and interview.",
+              placement:
+                "NIT Warangal has a Centre for Career Planning and Development (CCPD) that helps students get placed in top organisations in the field of software and management. NIT Warangal placement cell gives students a platform to enter the top companies in the management, core industry, and software domains, among others. The CCPD helps departments in placing students in major industries. Every year, 150 to 180 companies visit the campus for placements. The major recruiters of NIT Warangal are Byju's, Axis Bank, Deloitte, Capgemini, Wipro, L&T Infotech, ZS Associates, Microsoft, Amazon, Oracle and many more",
+              facilities:
+                "NIT Warangal offers various infrastructural facilities for students and faculty members. NIT Warangal facilities include twenty hostel blocks for men and two for women. The institute has a central library that provides facilities for general reading and disseminates information according to the requirement of the users. NIT Warangal facilities also include a health centre with three full-time regular medical officers and one contract part-time doctor who is assisted by paramedical staff. Some other NIT Warangal facilities are a gymnasium, sports facilities, IT infrastructure, canteen, auditorium, transport facility, Wi-Fi, banking facility and ATM, shopping complex, post office, guest house and many others. ",
+              location:
+                "NIT Warangal is located in Kazipet, Warangal, Telangana, India. It is well-connected to rail, road and airways. NIT Warangal is 2.5 hours drive on Hyderabad-Warangal National Highway 202. Rajiv Gandhi International Airport of Hyderabad is the nearest airport to Warangal. From there, one can take a train or a cab to reach the NIT Warangal campus, which takes around 2.5 hours by road and 2 hours by rail. The nearest railway stations are Kazipet and Warangal. Kazipet Railway Station is 3 km away, and Warangal Railway Station is 12 km away from the campus. Many trains pass through Kazipet junction; hence it is the most preferred one. ",
+            },
+
+            {
+              city: "NIT Durgapur",
+              about:
+                "The National Institute of Technology (NIT) Durgapur was established by the Government of India in 1960, as an Institute of National Importance. In NIRF 2023 Ranking, NIT Durgapur has ranked 43rd in the engineering category. NIT Durgapur offers a total of 53 courses including B.Tech, M.C.A, M.Sc, M.B.A, M.Tech and Ph.D. The admission to these courses is offered based on different national-level examinations. The institute also offers a long list of scholarships to help its students financially. A lot of facilities are also offered by the institute for its students.",
+              course:
+                " The institute offers a total of 53 courses at the undergraduate, postgraduate and doctoral levels. The streams across which NIT Durgapur courses are offered are Engineering and Architecture, Management, Sciences, and others. All these courses are offered in full-time mode only. The M.B.A fee structure of the institute is Rs. 1,08,000 and the duration of the Ph.D course is 6 years. Students who want to apply for the National Institute of Technology Durgapur courses need to fulfil the eligibility criteria prescribed by the institute. ",
+              admission:
+                "In order to apply for admission at NIT Durgapur, candidates must fill the online application form from the official website of the institute. Students must take different exams like GATE for M.Tech, JEE Main for B.Tech, NIMCET for M.C.A, JAM for M.Sc and CAT/MAT/CMAT for M.B.A to get admission in the particular courses. All these entrance exams will be followed by a round of counselling after which the list of final selected candidates will be released. However, For Ph.D admissions, candidates have to appear for an entrance test followed by a round of interview. ",
+
+              placement:
+                "The institute has a Placement Cell that is dedicated towards managing and coordinating all activities related to the placements in the institute. The placement cell makes sure to groom students completely before the final round of interviews through means of group discussions, mock interviews, seminars, webinars, and others. Candidates are shortlisted based on their performance in tests, interview and GD. Some of the companies that participate in National Institute of Technology Hamirpur placements are Google, Nokia, TCS, IBM, and others. ",
+              facilities:
+                "A wide range of facilities are offered by NIT Durgapur to provide its students with a comfortable college life experience. Some of the NIT Durgapur facilities are hostels for both boys and girls, a library with a large collection of books, textbooks, journals, a canteen which serves tasty and healthy food at reasonable rates, departmental-based laboratories, an auditorium facility for events and seminars, a guest house/waiting room facility for visiting faculty, recruiters and family members of students. The institute also has SBI and Canara banks for students and staff.",
+              location:
+                "NIT Durgapur is located on Mahatma Gandhi Rd, A-Zone, Durgapur, West Bengal  The nearest airport to the institute campus is Kazi Nazrul Islam Airport, which is approximately 15 km away from the main NIT Durgapur campus. The railway station that is the nearest to the NIT Durgapur campus is the Warai railway station. The railway stands just 7 km away from the institute location. The nearest bus station from the campus is the NIT Durgapur bus stand, located just 850 m away from the main college site.",
+            },
+
+            {
+              city: "MNIT Jaipur ",
+              about:
+                "Malaviya National Institute of Technology Jaipur is a public institute of National Importance established in 2007. According to NIRF 2023 Ranking, MNIT Jaipur ranked 62nd in the overall category, 37th in the engineering category, 47th in the research category, 69th in the management category and 13th in the architecture category. MNIT Jaipur offers 50 courses at UG, PG and doctoral levels in the Management and Business Administration, Engineering and Architecture, Computer Application and IT, Animation and Design, Sciences and Arts, Humanities and Social Sciences streams. MNIT Jaipur UG admissions are based on the marks obtained in the JEE Main, whereas the admissions to M.B.A, and M.Tech are based on the marks obtained in GATE/XAT/CAT/CMAT /MAT/GMAT respectively. The placements drive at MNIT Jaipur is overseen by a placement committee known as the Training & Placement (T&P).",
+              course:
+                "Undergraduate, postgraduate, and doctoral programmes are available at MNIT Jaipur. MNIT Jaipur offers 50 programmes, including B.Arch, B.E/B.Tech, M.E/M.Tech, M.Plan, M.Sc, M.B.A, and Ph.D. The Malaviya National Institute of Technology Jaipur courses last between 2 and 6 years. MNIT Jaipur offers full-time programmes for all of its programmes. The Malaviya National Institute of Technology Jaipur fees vary depending on the degree level and length of the course.",
+              admission:
+                "MNIT Jaipur admission to the B.Tech/B.Arch course is based on JEE Main scores, followed by the counselling process. Admission to M.Tech and M.Plan programmes at MNIT Jaipur is based on GATE exam scores. Candidates for M.B.A. programmes must have valid XAT/CAT/CMAT/MAT/GMAT scores. Students must complete the Malaviya National Institute of Technology Jaipur online application form, which can be found on the institute's official website.",
+              placement:
+                "On campus, Malaviya National Institute of Technology Jaipur has a Training and Placement Cell. MNIT Jaipur placement cell organises the university's placement drive. The cell works with a wide range of businesses and industries across the country. Many pre-placement activities, such as soft skill development and competency building programmes, are organised by the T&P cell to improve students' employability.",
+              facilities:
+                "Malaviya National Institute of Technology Jaipur offers numerous facilities to the students and faculty staff. MNIT Jaipur has a library, a hostel for both boys and girls, a canteen, a mess, and health care. Sports, a gym, an ATM, and transportation are also available at the National Institute of Technology Jaipur. The university's boys' and girls' hostels provide students with comfortable lodging. The varsity provides students with both indoor and outdoor sports facilities. ",
+              location:
+                "Malaviya National Institute of Technology Jaipur is located at Jawahar Lal Nehru Marg, Jhalana Gram, Malviya Nagar, Jaipur, Rajasthan. The nearest airport to the institute is Jaipur International Airport. It is located 5.4 km away from the campus. With a distance of 4.4 km, Durgapura Railway Station is the closest railway station to MNIT Jaipur. The institute is located at a distance of 650 m away from the Dean Gate Bus Stop",
+            },
+
+            {
+              city: "NIT Kurukshetra",
+
+              about:
+                "National Institute of Technology Kurukshetra was established in 1963 by the Government of India. NIT Kurukshetra offers a total of 48 courses out of which there are 7 courses at the undergraduate level, 24 courses at the postgraduate level and 17 courses at the doctorate level. NIT Kurukshetra has bagged the 58th  position under the engineering category in NIRF 2023 Ranking. To get admission into the courses of NIT Kurukshetra, candidates have to fulfill the eligibility criteria required for the courses. The institute also provides a good amount of facilities and good placement opportunities for students.",
+              course:
+                "NIT Kurukshetra offers a total of 48 courses at undergraduate, postgraduate and doctoral levels. The duration of these courses ranges from 2 to 6 years. Candidates need to fulfill the eligibility criteria to get admission to these courses. Candidates can apply for these courses through the official website of the institute.",
+              admission:
+                "To get admission to the courses of NIT Kurukshetra, candidates will be selected on the basis of the marks obtained in the entrance examination. For undergraduate courses, candidates have to appear for JEE Mains entrance examination, for postgraduate courses candidates have to appear for GATE/NIMCET/CAT and for PhD courses candidates must appear for written test and interview.",
+              placement:
+                "NIT Kurukshetra offers many placement opportunities for its students. They invite many companies from various sectors to participate in their placement drive. They ensure that the placement process is followed smoothly and the candidates selected in the placement process join the company on the date mentioned in the offer letter.",
+              facilities:
+                "NIT Kurukshetra campus facilities include Hostel facilities, Medical facilites, hospital, Gym facilities, Library, Sports facilities. The infrastructure of the college include IT Infrastructure, Cafeteria, Auditorium, Wi-Fi, Banks, ATM, Swimming Pool, Laboratories, Convenience Store, Guest Room and Waiting Room.",
+              location:
+                "NIT Kurukshetra is located in Thanesar at Kurukshetra, Haryana. The nearest railway station to the institute is Kurukshetra Junction Railway Station which is 6.5 km away from the campus. As there is no airport in Kurukshetra candidates can reach the campus through Chandigarh International Airport which is 100km away from the campus. Candidates can easily book a taxi from the airport",
+            },
+
+            {
+              city: "MNNIT Allahabad",
+              about:
+                "Motilal Nehru National Institute of Technology, commonly known as MNNIT Allahabad was established in 1893. The Institute is granted the status of a deemed university and renamed as the “National Institute of Technology” with an elevation in status to an Institution of National Importance. MNIT Allahabad ranked 49th under the engineering category in NIRF 2023 Ranking. The college offers courses at the UG, PG and doctoral levels A total of 55 courses are offered here. Admissions to UG and PG courses at this college are offered on the basis of different national-level entrance examinations. The institute also offers multiple scholarships to its students in an attempt to recognise the meritorious performances of the students. ",
+              course:
+                "The college offers a total of 55 programmes. These courses are offered across streams like arts, commerce, and science at undergraduate, postgraduate and doctoral levels. MNNIT Allahabad courses are offered in regular as well as online modes. B.Tech is the UG course provided by the college. The PG courses of the institute include M.Tech, M.B.A, M.Sc., and others. The duration of the UG courses at the institute is 4 years, the duration of the MNNIT Allahabad PG course is 2 years and the doctoral course is 6 years. ",
+              admission:
+                "The institute gives admission to UG, PG and doctoral courses. For UG course admission i.e. B.Tech, candidates must apply and appear for JEE Mains. Admission to various PG courses is done through different entrance examinations. Motilal Nehru National Institute of Technology Allahabad admission to M.Tech courses is given based on candidates' performance in GATE, which is followed by a round of counselling. CAT scores are considered by the university for admission to the M.B.A. programme. The application form for MNNIT Allahabad is available on its official website.",
+              placement:
+                "The institute has a Training and Placement Cell that is dedicated towards managing and coordinating all activities related to the placements in the institute. The MNNIT Allahabad placement office appoints a single point of contact (SPOC) representative who will plan and organise all the requirements for the recruiters for a comfortable placement experience. The recruiters have their own independent policy of recruitment in terms of aptitude tests, possible group discussions and direct interviews and after placements, the students within a stipulated time can communicate their intention of joining the company to the employer through the MNNIT Allahabad placement office.",
+              facilities:
+                "A wide range of facilities are offered by MNNIT Allahabad to provide its students with a comfortable college life experience. Some of the MNNIT Allahabad facilities are library with a large collection of books, textbooks, journals, hotels for both girls and boys with 24 hours internet connectivity and mess facility, a canteen which serves tasty and healthy food at reasonable rates, departmental-based laboratories, research and computer centres, good banking facility on campus with all required amenities and ATM services and transport facility is used by the student to travel to and from within the University Campus.",
+              location:
+                "The college is located at Barrister Mullah Colony, MNNIT Allahabad Campus, Teliarganj, Prayagraj, Uttar Pradesh. The institute is 1 away from Motilal Nehru NIT Bus Stop, which is the closest bus stop to the institute. It takes 3 minutes to cover the distance.  With a distance of 8.2 km, Prayagraj Junction is the closest railway station to the institute. The nearest airport to MNNIT Allahabad is Bamrauli Airport. It is about 20.1 km away from the college, and it takes 41 minutes to cover the distance.",
+            },
+
+            {
+              city: "NIT Silchar",
+              about:
+                "National Institute of Technology Silchar was established in the year 1967. NIT Silchar ranked 83rd under the overall category and 40th under the engineering category in the NIRF 2023 Ranking. The institute offers multiple courses in various fields. The NIT Silchar courses include undergraduate, postgraduate and doctoral level courses. The NIT Silchar admissions are based on the scores obtained in the entrance examination such as JEE Main/CAT/MAT/CMAT. The duration and the NIT Silchar fees vary for each course at each level. The institute has a separate placement cell. NIT Silchar placement cell organises training and grooming sessions for students and takes care of all the placement activities.",
+              course:
+                "At each level of the degree, the National Institute of Technology provides a variety of specialisations. The NIT Silchar courses are available in chemistry, mathematics, instrumentation engineering, manufacturing engineering, and many other branches. The institute provides only one undergraduate programme, B.Tech. The B.Tech. programme at the institute has six specialisations. The college provides M.Tech., M.Sc. and M.B.A. programmes at the postgraduate level. The college offers eleven Ph.D. courses. The candidate has to meet the NIT Silchar eligibility criteria for the desired course.",
+              admission:
+                "Admission to the B.Tech. courses are done on the basis of the JEE Main entrance examinations. To get NIT Silchar admission to the M.Tech./M.Sc courses are done on the basis of the merit scores in past academics. Candidates have to appear for the CAT/MAT/CMAT entrance examination to secure admission to the M.B.A. course. NIT Silchar admission to the Ph.D. courses is done on the basis of a personal interview/written test conducted by the college. Eligible candidates can apply for the desired course by visiting the official website.",
+              placement:
+                "The institute has a separate training and placement cell that prepares students for final placements. The NIT Silchar placement cell training includes in-house training on soft skills, personality development, group discussion, resume writing, interview skills, aptitude tests, and many others. Mock group discussions and interviews are conducted by internal senior faculty and industry experts. The college also provides students with career counselling. The NIT Silchar placement cell also organises industrial visits.",
+              facilities:
+                "The institute offers well-structured facilities for students, staff and faculty on campus. The NIT Silchar facilities include separate hostels for boys and girls, a library with a huge collection of books, magazines, journals and many others, laboratories for each department, medical/hospital, sports and many other facilities. The NIT Silchar sports facilities include indoor and outdoor games like badminton, volleyball, football, chess, and many others. ",
+              location:
+                "National Institute of Technology Silchar is located on the Silchar-Hailakandi Road, 8kms away from the southern outskirts of Silchar town in Assam. The nearest bus station is ISBT Silchar, from the NIT Campus. The distance of the Silchar railway station from the campus is around 10 km. There are direct flights to Silchar from major cities like Delhi, Kolkata, Bangalore, Imphal and Guwahati. The distance of the institute campus from the airport is approximately 35 km.",
+            },
+
+            {
+              city: "NIT Rourkela",
+              about:
+                "National Institute of Technology Rourkela was established in 1961 by the Government of India. In the year 1961, it was established as Regional Engineering College. NIT Rourkela offers 101 courses out of which there are 23 undergraduate courses, 57 postgraduate courses and 20 doctoral courses. NIRF 2023 Ranking of National Institute of Technology Rourkela is 37th in the overall category, 16th  in the engineering category, 29th in the research category, and 8th in the architecture category. The College also provides good infrastructure and facilities for students and it also provides good internships and placement opportunities for the students.",
+              course:
+                "NIT Rourkela provides a total of 103 courses. These courses are full-time courses. The duration of these courses ranges from 2 years to 6 years. Candidates need to fulfill the eligibility criteria of the course they want to get admission in. The fee structure of these courses is different. Candidates are required to check the fee structure in detail from the official website of the institute.",
+
+              admission:
+                "To get admission into B.Tech courses at NIT Rourkela is based on the scores obtained by the candidate in JEE Mains and admission to M.Tech courses is on the basis of the GATE examination. The admission of PhD courses is on the basis of the NITR selection procedure. Candidates qualifying in JEE Mains entrance examinations for B.Tech course have to further attend the counselling process conducted by Joint Seat Allocation Authority (JoSAA).",
+              placement:
+                " NIT Rourkela provides placement opportunities for students from various companies. Along with the placement, the college also provides internship opportunities for students for their practical learning. The placement committee of the college ensures that the placement process is followed smoothly from start to end.",
+              facilities:
+                "NIT Rourkela offers various facilities such as hostel facilities, medical facilities, sports facilities, ATM facilities, safety and security facilities and gym facilities. The institute also has a well-maintained infrastructure which includes auditorium, lecture hall, central library, computer centre, swimming pool,  canteen, shopping centre, post office Temples, campus guest houses. The campus is spread across 647 acres of land and has a lush green infrastructure. ",
+              location:
+                "National Institute of Technology Rourkela is located in Sector 1 at Rourkela. It is connected with state highway 10 and national highway 23 and is connected with cities like Raipur, Sambalpur, Ranchi and Bhubaneswar. The nearest railway station from the college is Rourkela Railway Station which is 7 km away from the campus, one can easily get a cab or auto from there to the campus. Bus facilities are also available to commute to the campus. As there is no airport in Rourkela, candidates can come by air to the airport of the nearby cities like Jharsuguda, Kolkata, Bhubaneswar, Ranchi and Raipur. Candidates can come by road or train from the airport",
+            },
+          ],
+        },
+        {
+          id: 3,
+          name: "Top 10 Private College",
+          detail: [
+            {
+              city: "VNIT Nagpur",
+              about:
+                "Established in 2007, Visvesvaraya National Institute of Technology Nagpur is a government institute of National Importance. VNIT Nagpur offers undergraduate, postgraduate and doctoral programmes in full-time mode. Admission to the undergraduate programmes at VNIT Nagpur is based on performance in the JEE Main examination. Before applying for admission to any desired programme, aspiring students must meet the VNIT Nagpur eligibility criteria. For the convenience of students, the VNIT Nagpur campus offers modern and upgraded facilities and infrastructure. The institute has a placement department office which oversees the placement drive at the campus.",
+              course:
+                "The institute offers courses at three levels: UG, PG and doctoral. The VNIT Nagpur courses are offered in Engineering And Architecture, Sciences and Arts, Humanities And Social Sciences streams. Visvesvaraya National Institute of Technology Nagpur course list includes 9 undergraduate programmes, 23 postgraduate programmes and 15 doctoral research programmes. VNIT Nagpur courses are offered in full-time mode only. Aspiring candidates must meet the eligibility criteria in order to be eligible for admissions at VNIT Nagpur. Candidates can apply for admissions by visiting the official website of Visvesvaraya National Institute of Technology Nagpur. ",
+              admission:
+                "VNIT Nagpur admissions are offered at UG, PG and doctoral levels. Admissions to VNIT Nagpur are available for B.Tech, B.Arch, M.Tech, M.Sc, and Ph.D programmes. VNIT Nagpur B.Tech/B.Arch admission is based on the JEE Main score, which is then followed by JoSAA counselling. Admission to the M.Sc programme at Visvesvaraya National Institute Of Technology Nagpur is based on the JAM score, followed by participation in the CCMN counselling process. Previous academic records, a written examination, and a personal interview are used to determine admission to the doctoral programme.",
+              placement:
+                "The institute has a training and placement department that oversees the VNIT Nagpur placements. In order to prepare for the placement process, the students are given training in personality development and communication skills. NIRF 2023 Ranking of VNIT Nagpur is 82nd in the overall category, 41st in the engineering category and 12th in the architecture category. The department also offers mock assessments and practice sessions in aptitude, quantitative ability, logical thinking, and reasoning. The Visvesvaraya National Institute of Technology Nagpur placement drive attracts businesses from a range of industries, including construction, electronics manufacturing, infrastructure, software, education, technology manufacturing, IT, banking, vehicle manufacturing, banking, and others. The VNIT Nagpur NIRF Placement Report 2023 shows that out of 672 eligible students, 669 UG (4 years) students were placed with a median salary of Rs. 11,00,000, while 3 students opted for higher education.",
+              facilities:
+                "The VNIT Nagpur has a vast campus spread across 215 acres and has various facilities for students. VNIT Nagpur facilities are designed efficiently to help students carry out their academic and non-academic activities within the campus. The VNIT Nagpur facilities like hostels, auditorium, gymnasium, cafeteria, library and laboratories, etc., are available with full access as per the institute’s norms for all students and faculty members. Health services are available 24 hours a day and seven days a week for all the university’s members and can be accessed anytime during an emergency. There are facilities to carry out indoor and outdoor sports and a hall for cardio fitness.",
+              location:
+                "It takes1 7 minutes to travel from Nagpur Railway Station to Vnit Nagpur. Approximate driving distance between Nagpur Railway Station and Vnit Nagpur is 5.9 kms or 3.7 miles or 3.2 nautical miles . Travel time refers to the time taken if the distance is covered by a car. It takes 20 minutes to travel from Nagpur Airport to Vnit. Approximate driving distance between Nagpur Airport and Vnit is 7 kms or 3.9 miles or 3.2 nautical miles . Travel time refers to the time taken if the distance is covered by a car.",
+            },
+            {
+              city: "VJTI Mumbai",
+              about:
+                "Established in 1887, Veermata Jijabai Technological Institute, Mumbai is a government college. VJTI Mumbai is an autonomous college of University of Mumbai, Mumbai. B.E/B.Tech, M.C.A, M.E/M.Tech, P.G.D, Ph.D and more are among the courses available at VJTI Mumbai. VJTI Mumbai courses are offered in full-time mode only. Admissions to most courses at VJTI Mumbai are handled through an online centralised system in accordance with Maharashtra government guidelines, whereas VJTI Mumbai admissions to some programmes are offered based on the entrance examinations. VJTI Mumbai has modern and upgraded facilities for students, staff and faculty members. The institute has a Training and Placement Office which takes care of the placement activities on campus.",
+              course:
+                "Veermata Jijabai Technological Institute, Mumbai offers a total of 47 courses at diploma, undergraduate, postgraduate and doctoral levels. VJTI Mumbai courses are Diploma, B.E/B.Tech, M.C.A, M.E/M.Tech, P.G.D, Ph.D. VJTI Mumbai courses are offered in full-time mode. VJTI Mumbai courses are offered in various streams which include Engineering and Architecture, Animation and Design and Arts, Computer Application and IT, Humanities and Social Sciences and Sciences. The eligibility and admission requirements for various Veermata Jijabai Technological Institute courses vary. Candidates must meet the VJTI Mumbai eligibility criteria in order to apply for admissions at the institute.",
+              admission:
+                "VJTI Mumbai admissions are offered at four levels: diploma, undergraduate, postgraduate, and doctoral. Admissions to most courses at VJTI Mumbai are handled through an online centralised system in accordance with Maharashtra government guidelines. Candidates must register for VJTI Mumbai admission through the MHT-CET portal, complete the application form with all required documents, and pay the required fee. Candidates must take JEE Main or MHT CET to be admitted to B.Tech programmes. Candidates for M.Tech must take the GATE/GPAT. MAH MCA CET is used for VJTI Mumbai M.C.A admissions. Those interested in pursuing a Ph.D must take the GATE/NET examination.",
+              placement:
+                "VJTI Mumbai admissions are offered at four levels: diploma, undergraduate, postgraduate, and doctoral. Admissions to most courses at VJTI Mumbai are handled through an online centralised system in accordance with Maharashtra government guidelines. Candidates must register for VJTI Mumbai admission through the MHT-CET portal, complete the application form with all required documents, and pay the required fee. Candidates must take JEE Main or MHT CET to be admitted to B.Tech programmes. Candidates for M.Tech must take the GATE/GPAT. MAH MCA CET is used for VJTI Mumbai M.C.A admissions. Those interested in pursuing a Ph.D must take the GATE/NET examination.",
+              facilities:
+                "Veermata Jijabai Technological Institute facilities and infrastructure are well-appreciated by the students and faculty because of its mess facility, modern library and comfortable hostel rooms. Timely medical and modern sports facilities are provided to students to ensure extra-curricular development. VJTI Mumbai facilities list also includes a library that has various e-resources apart from its enriched collection of books. The college has modern and upgraded facilities and infrastructure for the convenience of students & faculty members. ",
+              location:
+                "Address: H R Mahajani Rd, Matunga, Mumbai, Maharashtra 400019. Travel Options: By Rail Nearest stations: Central Line – Matunga, Western Line – Dadar, Harbour Line: Wadala and King’s Circle. By Air Nearest Airport is Mumbai (BOM) – 13 Kms, Second airport Pune (PNQ) – 160 Kms",
+            },
+
+            {
+              city: "MIT World Peace University Pune",
+              about:
+                "Dr Vishwanath Karad MIT World Peace University is a private state university established in the year 1983. The campus is spread over 31 acres of land. The university is recognised by the University Grants Commission (UGC). It is also known as MIT WPU Pune and MIT World Peace University. As per the NIRF 2021 report, the university has been ranked 150 in the engineering category. The university was ranked 73rd in the NIRF Ranking 2020 in the pharmacy category. The varsity offers undergraduate, postgraduate and doctoral programmes.",
+              course:
+                "MIT World Peace University offers 24 programmes in total. MIT World Peace University courses are offered at undergraduate, postgraduate and doctoral levels. The university offers arts, science and commerce streams courses. MIT WPU courses are offered in full-time mode. The duration of Dr Vishwanath Karad MIT World Peace University UG courses is 3 years. At the postgraduate level, all MIT World Peace University courses are of 2 years duration except PGP Public Policy which is a 11 months programme. The total fee and eligibility criteria of courses offered by MIT WPU Pune is different for each programme and varies as per the specialisation and level of degree. ",
+              admission:
+                "MIT Worl Peace University provides admission to undergraduate, postgraduate and doctoral programmes. MIT World Peace University admissions are offered to B.A. (Hons), B.Sc., M.Sc., M.C.A., Ph.D etc. programmes. MIT WPU Pune B.Sc. Computer Science and B.C.A. admission is done based on a personal interview conducted by the university. The varsity also conducts a personal interview for admission to B.A. (Hons) Government and Administration, B.A. Social Science, B.Sc. Yogashastra and B.Sc. Computational Mathematics and Statistics programmes. At the postgraduate level, MIT World Peace University admission to M.C.A. course is given on the basis of candidates scores in MAH MCA CET/PGCET/PERA. The varsity conducts an entrance examination and a personal interview for admission to its Ph.D courses. Candidates who meet the eligibility criteria of the desired programme can apply for MIT WPU Pune admissions. The application form of the university is available on its official website. ",
+              placement:
+                "Every year reputed companies such as Amazon, Tata Consultancy Services, IBM etc. participate in the MIT World Peace University placement drive and hire students. To make sure students are well prepared for MIT WPU Pune placements, the university has a career services team. It is responsible for conducting the placement drive at the campus. The career services team not only provides placement opportunities, but also provides career guidance and advice to students. Seminars, guest lectures by industry experts, aptitude tests, group discussions etc. are conducted at regular intervals by the career Services team to boost students' confidence and get them ready for MIT World Peace University placements. Summer internships, entrepreneurship & higher studies support are also offered to students.",
+              facilities:
+                "MIT World Peace University has a large number of modern & upgraded facilities for students. MIT World Peace University facilities make sure students do not face inconvenience at the campus. The varsity has separate accommodation facilities for boys and girls. MIT WBU Pune facilities are a library, gym, cafeteria, auditorium etc. The campus has facilities for sports such as cricket, badminton, basketball, table tennis etc. Dr Vishwanath Karad MIT World Peace University campus has a medical centre as well. For faculty members and students, the entire campus has wifi connectivity. Modern IT infrastructure, swimming pool and bank/ATM are some more MIT World Peace University facilities available for students. ",
+              location:
+                "From Pune Station, Agarkar Nagar, go straight and take a left towards Jehangir Hospital. Continue straight and take a left to reach Shivaji Nagar, Wakdewadi Road. Go straight, and you’ll reach the Mumbai highway. Continue to drive on the highway. Take a right and then a left to reach Subhash Chandra Bose Chowk. Follow the path until you are on JM Road. Continue straight on the JM Road parallel to Fergusson College Road. Take a left toward Khanduji Baba Chowk and then a right. You’ll now continue on Maharshi Karve Rd-> Paud Rd. Take two rights to reach MIT College Road. Continue straight, and there you have it, MIT College, Pune!",
+            },
+
+            {
+              city: "NMIMS Mumbai",
+              about:
+                "Narsee Monjee Institute of Management Studies, Mumbai was established in 1981. SVKM's NMIMS ranked 88th in the overall category as per the NIRF 2023 Ranking. NMIMS Mumbai provides various types of courses at undergraduate, postgraduate and doctoral levels such as B.Tech, BBA, B.Com (Hons), B.Sc, BA, MBA, M.Pharm, PhD and many more. For SVKM's NMIMS admission candidates need to appear and secure a valid score in the entrance examinations such as NMIMS CET/ NPAT/ NMIMS LAT followed by an interview along with the group discussion if necessary. Narsee Monjee Institute of Management Studies Mumbai placement opportunities are provided to the graduating students. SVKM's NMIMS highest salary package stood at Rs. 19,20,000 per annum for the Integrated PG 5-year students. Apart from these, the Narsee Monjee Institute of Management Studies, Mumbai also provides various types of scholarships and facilities to its students",
+              course:
+                " Narsee Monjee Institute of Management Studies Mumbai offers courses at undergraduate, postgraduate and doctoral levels. NMIMS Mumbai UG courses are B.Tech, BBA, B.Com (Hons), B.Sc, BA and many others. Narsee Monjee Institute of Management Studies, Mumbai PG courses are MBA, M.Pharm and many more. The duration of the NMIMS, Mumbai PhD course is 6 years. SVKM's NMIMS course fee for the B.Tech course ranges from Rs. 3,50,000 to Rs. 4,50,000. The fee structure for the courses offered by the NMIMS varies from one programme to another. ",
+              admission:
+                " NMIMS Mumbai Admissions 2024: SVKM's NMIMS offers admissions at undergraduate, postgraduate and doctoral levels. To get Narsee Monjee Institute of Management Studies admissions for UG courses candidates need to appear and secure a valid score in the NMIMS CET/ NPAT/ NMIMS LAT. For NMIMS Mumbai PG admissions candidates must appear and secure a valid score in the NMAT entrance examination. In order to get SVKM's NMIMS PhD admissions admission test followed by a personal interview along with a group discussion is required. Later, the final confirmation of the candidate's admission will be done only after the verification of the documents and course fee payment. ",
+              placement:
+                " SVKM's Narsee Monjee Institute of Management Studies, Mumbai has a placement cell that helps the students to be placed in the major organisations. SVKM's NMIMS placement cell acts as the bridge between the students and the organisation. As per the NIRF Report 2023 available, Out of 2,178 graduating students 1,571 students are placed. SVKM's Narsee Monjee Institute of Management Studies, Mumbai median salary package for the UG-3 year students is Rs. 5,50,000. Whereas, the median salary package for the PG 3year student stood at Rs. 19,20,000. Some of the significant organisations that participated in the NMIMS Mumbai campus drive are Aditya Birla, Capgemini, Cognizant, Google, Titan and many more. ",
+              facilities:
+                " Narsee Monjee Institute of Management Studies (NMIMS), Mumbai offers several infrastructural facilities to the students, faculty and staff members. NMIMS Mumbai facilities include two full-fledged hostels and four rented residential accommodations in Mumbai, separately for boys and girls. The library of NMIMS Mumbai provides students with a huge collection of textbooks, reference books, journals, magazines, e-books, CDs, DVDs and other academic resources to help them with their studies. NMIMS Mumbai facilities also include a cafeteria that provides healthy and nutritious meals to the students, faculty and staff. NMIMS Mumbai also has classrooms equipped with audio-visual equipment, LED projectors, smart board, video streaming and conference facilities. Sports facilities, auditorium, healthcare centre, IT infrastructure and laboratories are also part of NMIMS Mumbai facilities.",
+              location:
+                "Navi Mumbai-  Plot No. 2, near Pethpada Metro Station, Pethapada, Sector 33, Kharghar, Navi Mumbai, Maharashtra 410210. Mumbai- V. L. Mehta Road, Vile Parle, West, Mumbai, Maharashtra, India, Pin Code - 400 056",
+            },
+
+            {
+              city: "ICT Mumbai",
+              about:
+                "Institute of Chemical Technology, Mumbai was established in 1933. The college is accredited by the National Board of Accreditation (NBA) and an “A” grade by the National Assessment and Accreditation Council (NAAC). ICT Mumbai Quality Assurance (QA) and Quality Enhancement (QE) have accreditation from ICAQ. The ICT Mumbai admissions are offered in streams of Engineering and Architecture, Medicine and Allied Sciences, Pharmacy, and Sciences. The college offers scholarship opportunities to students. The ICT Mumbai placement cell handles the matters related to the placements of the students. ",
+              course:
+                " Institute of Chemical Technology, Mumbai offers a total of 76 courses of which 1 is an online certification course, 9 courses are offered at the undergraduate level, 33 courses are offered at the postgraduate level and 33 courses are offered at the doctoral level. The ICT Mumbai UG courses include B.Tech and B.Pharmacy. The ICT Mumbai PG courses include M.Tech., M.Pharmacy, M.Sc., and P.G.D. The college offers Ph.D at the doctoral level. The ICT Mumbai fees vary from course to course. Similarly, the eligibility criteria may vary from one specialisation to another.",
+              admission:
+                "Institute of Chemical Technology, Mumbai offers admissions at undergraduate, postgraduate and doctoral levels. The ICT Mumbai selection process is done based on the performance of the candidate in the entrance examination. The ICT Mumbai B.Tech admissions are done based on MH CET/ JEE Main scores while B.Pharm. admissions are done based on MH CET scores. The ICT Mumbai M.Tech and M.Pharm admissions are done based on GATE/GPAT/GAT-B scores. The ICT Mumbai P.G.D and Ph.D selection process are done based on performance in the written test and interview. The candidates must meet the ICT Mumbai eligibility criteria to apply for the courses.",
+              placement:
+                " Institute of Chemical Technology, Mumbai has a Central Placement cell that provides placement opportunities to the students. The training and placement cell actively conducts ICT Mumbai placement drives, commencing from July and continuing throughout the year before the candidates complete their graduation. Students participate in in-plant industrial training and internships prior to the ICT Mumbai recruitment process to develop professional-level experience before being placed in prestigious companies. The ICT Mumbai placement process also offers postgraduate research opportunities in prestigious institutions worldwide. ",
+              facilities:
+                "The Institute of Chemical Technology (ICT), Mumbai endeavours to create an engaging and happening learning environment for its students. The sprawling ICT campus, situated in central Mumbai, provides connectivity to all essential urban centres. It houses labs with top-notch equipment, allowing students to conduct a wide range of experiments. The list of ICT Mumbai facilities also includes premium accommodations with all the necessary amenities, keeping in mind the residents’ needs. Campus-wide Wi-Fi is also available, along with a state-of-the-art library, canteen, and mess. The hostels are well-endowed with many indoor and outdoor sports amenities. Students can read the article below to know more about the Institute of Chemical Technology Mumbai facilities.",
+              location:
+                "From Dadar Railway Station (Western Railway): Exit on the western gate to Senapati Bapat Marg and walk on Ranade road and N.C. Kelkar Road to Plaza Cinema. Board on Bus No. 169 towards Pratiksha Nagar and alight at the ICT / Don Bosco bus stop exactly opposite ICT's main gate.",
+            },
+
+            {
+              city: "DIAT Pune",
+              about:
+                "DIAT Pune is a premier institute for advanced research and education in defence and strategic technologies. According to the official notification, the last date for online application submission for GATE 2024 is September 29, 2023 and the exam will commence in the first week of February 2024. Ek Bharat Shreshtha Bharat programme conducted at DIAT Pune from July 2023 to October 2023 aims to promote fraternity among the people from different states of India by conducting various cultural programmes at the campus.",
+              course:
+                "The university offers a total of 34 courses at the postgraduate level. DIAT Pune courses are M.Tech, M.Sc. and PGD. The various Defence Institute of Advanced Technology courses are taught by trained faculties and help the students to get in-depth knowledge about the subject and the field they choose. DIAT Pune offers full-time Master of Technology (M.Tech.) courses in 30 specialisations. Some of the DIAT Pune PG courses are M.Tech. Electronics and Communication Engineering, M.Tech. Technology Management, M.Sc. Food Technology, PG Diploma in Fire Engineering and Integrated Safety and so on.",
+              admission:
+                "DIAT Pune offers admission to 34 postgraduate courses. Candidates can apply for admission to M.Tech, M.Sc. and P.G.D courses. For DIAT Pune M.Tech admissions, candidates have to appear for GATE followed by an interview. For DIAT Pune M.Sc. and P.G.D. programmes, the candidates have to only appear for an interview. DIAT Pune admissions are offered to candidates who meet the eligibility criteria determined by the university. Candidates can apply for Defence Institute of Technology admission by visiting the official website of the varsity and filling out the application form. ",
+              placement:
+                "Defence Institute of Advanced Technology, Pune has a Centre for Training and Placement (CTP) to take care of the placement of students. DIAT Pune placement cell ensures that students are offered maximum placement opportunities every academic year. Along with placements, students are also offered summer internships. The CTP prepares students for the DIAT Pune placement drive by conducting seminars, guest lectures, aptitude training, soft skill and technical skill development and so on. As per the Defence Institute of Advanced Technology placement report 2021-22 (NIRF Report 2023), a total of 208 students from PG 2-years courses got placed in reputed organisations. ",
+              facilities:
+                "In order to aid holistic learning and to ensure that the students are able to focus on their overall growth in a better way, there is a myriad of Defence Institute of Advanced Technology, Pune facilities. These are not just limited to the students, but can also be utilized by the staff members residing on the campus. Defence Institute of Advanced Technology’s Pune campus has a sprawling environment and is located near the Khadakwasla Dam in Pune, Maharashtra. The DIAT Pune facilities one can utilize as a student or faculty member include a large auditorium alongside a gym, canteen and a supermarket for ensuring that the students have a good residential experience. Furthermore, with a robust IT infrastructure, 24-hour WiFi and medical facility, the students can look forward to a great learning experience. ",
+              location:
+                "DIAT, Pune is located in Girinagar, next to Khadakwasla Dam, Pune, Maharashtra The institute is 16 kilometres away from Swargate ST Bus Depot, approximately 20 kilometres from Pune Railway Station and 28 kilometres from the Pune airport.",
+            },
+
+            {
+              city: "RAIT Navi Mumbai",
+              about:
+                "Ramrao Adik Institute of Technology, Navi Mumbai offers admission to various engineering streams such as B.Tech and M.Tech. The National Testing Agency will conduct the JEE Main 2024 in two phases. The first phase will be held in the final week of January 2024, while the second phase will take place in April 2024. MHT CET 2024, will open registration in March 2024, and close in April 2024. The exam date is expected to be conducted in the month of May 2024. The last date to apply for GATE 2024 is on September 29, 2023 and the exam will be held in the first week of February 2024. Ramrao Adik Institute of Technology signed an MoU with Microdevice Technologies to conduct certification courses on Embedded Systems with functional safety and IoT designed by SafeTTy systems, UK.",
+              course:
+                "Ramrao Adik Institute of Technology, Navi Mumbai offers a total of 19 full-time programmes such as B.Tech, M.Tech and Ph.D courses. RAIT offers 4 years B.Tech programmes in various streams, such as Electronics and Telecommunication Engineering, Information Technology, Computer Science and Business Systems, Artificial Intelligence and Data Science, Electronics and Computer Engineering and so on. RAIT M.Tech courses are   Instrumentation Engineering, Computer Engineering, Electronics and Telecommunication Engineering and Electronics Engineering. In addition to this, RAIT also offers 6 years Ph.D programmes in engineering and sciences. Candidates need to meet some eligibility criteria for taking RAIT admissions.",
+              admission:
+                "Ramrao Adik Institute of Technology offers admission to a total of 19 undergraduate, postgraduate and doctoral programmes. RAIT Navi Mumbai admissions are offered to B.Tech, M.Tech and Ph.D programmes. RAIT Navi Mumbai B.Tech admission is based on the performance of candidates in MHT CET/ JEE Main/ SAT/ DYPRAIT-ET followed by a counselling session. For RAIT Navi Mumbai M.Tech admission, candidates have to appear for the GATE or DYPRAIT-PG Entrance Examination. RAIT Navi Mumbai Ph.D admission is based on marks scored by applicants in  Ph.D Entrance Test (PET) followed by an online interview conducted by DY Patil Deemed to be University. ",
+              placement:
+                "The institute has a well-established training and placement cell. RAIT Navi Mumbai placement cell actively assists in providing placement assistance to final year students. Students begin working with the RAIT Navi Mumbai placement cell in their pre-final year at the institute. They take advantage of career development opportunities such as aptitude training, soft-skills seminars, technical skills, and industry partnerships, as well as self-assessment tasks that help them identify their strengths and shortcomings. They also go through career counselling sessions. Each year, the RAIT Navi Mumbai placement department organises on-campus and off-campus recruiting events for a wide number of reputable organisations, including  Morgan Stanley, JP Morgan Chase, Reliance Jio, TCS, Ericsson, LnT Infotech, ZTE, Mahanagar Gas, Infosys, HCL Tech, Tech-Mahindra, Atos India, Indian Navy, Schneider-Electric and many more. The placement of Ramrao Adik Institute of Technology, Navi Mumbai also provides internship assistance to its students. For students, the placement cell offers a variety of training programmes such as aptitude training, soft skills training, and technical training. They are encouraged to attend those programmes to develop their talents based on an evaluation of their accessible skill sets. As per the RAIT Navi Mumbai placement report (data taken from NIRF report), for UG courses 2020-21, out of 1068 eligible students for RAIT Navi Mumbai placements, 666 students were placed with a median salary of Rs.4,00,000 and 267 students opted for higher studies. According to the RAIT Navi Mumbai placement report (from NIRF report), for PG courses 2020-21, out of 12 eligible students for placements, 10 students were placed with a median salary of Rs.4,05,000. ",
+              facilities:
+                "The institute has adequate infrastructural facilities for the students and faculty members. RAIT Navi Mumbai facilities include a central library located within the campus which has a wide collection of books and journals. For students, faculty, and staff, the library is open round the clock on all days. An auditorium is present within the campus which is used to host various conferences, seminars and other cultural events within the institute. RAIT Navi Mumbai facilities also include a medical room and a hospital located within the campus and different medical services are available to the students. RAIT provides facilities for both indoor and outdoor games. For indoor games, there is a multipurpose sports facility for table tennis, chess and badminton, and various other games. For outdoor games, there is a large playing field that serves as a common ground for various outdoor games. Other RAIT Navi Mumbai facilities are a gymnasium, cafeteria, IT infrastructure, laboratories, classrooms etc.",
+              location:
+                "Ramrao Adik Institute of Technology is located at Dr. D. Y. Patil Vidyapeeth, Nerul, Navi Mumbai, Maharashtra. Nerul Railway Station is 1.4 km away and LP Bus Stop is 350 metres away from RAIT Navi Mumbai and takes only 5 minutes to reach the campus.",
+            },
+
+            {
+              city: "AIT Pune",
+              about:
+                "Army Institute of Technology, Pune was established in the year 1994 by AWES. The institute is approved by the AICTE and is affiliated with Savitribai Phule Pune University, Pune. The institute is accredited by NBA and NAAC with an A grade. The institute offers B.Tech course with various specialisations at the undergraduate level. AIT Pune admissions is done on the basis of marks obtained in the JEE-Mains entrance examination and performance in the counselling process. The institute has a placement cell which offers placement to its students in various companies of different sectors. The institute offers scholarships for students in financial need. The institute offers various facilities for its students such as hostel facilities, sports facilities, internet facilities, and medical facilities. The infrastructure of the campus is well-maintained and it includes library, gym, cafeteria, mess, bank, shopping complex, and water plant.",
+              course:
+                "AIT Pune offers various courses at the undergraduate level. These courses are accredited by the NBA. These courses are offered in regular full-time mode. AIT Pune courses are offered in Engineering & Architecture. These courses include B.Tech in various specialisations. The duration of these courses is 4 years. Candidates should meet the eligibility criteria required for admission to this course.AIT Pune fee structure varies from course to course. Candidates can check AIT Pune courses and fees mentioned in detail from the official website of the college.",
+              admission:
+                "Army Institute of Technology Pune offers admission to its courses on the basis of the scores obtained in the entrance examination. For AIT Pune courses, candidates have to appear for the JEE-Mains entrance examination for B.Tech courses. Candidates clearing the entrance examination have to appear for the counselling process. Candidates will be selected for admission on the basis of marks obtained in the JEE-Mains entrance examination and the counselling process. The candidates selected have to submit their documents for verification along with AIT Pune course fees. Candidates can apply for the courses through the official website of the institute where the candidates have to submit their application form with the application fees.",
+              placement:
+                "AIT Pune has a training and placement cell which offers placements to its students in reputed companies. For AIT Pune placements, the placement cell provides training modules for the students to prepare them for the placements. AIT Pune placement cell provides placement opportunities by inviting various companies to participate in the placement drive. The placement cell also maintains a good relationship with the alumni of the institute and invites them to conduct guest lectures for the students of the institute. The placement cell also offers internships for its students in reputed companies for their practical learning.",
+              facilities:
+                "The institute has a variety of facilities for the convenience of students. The infrastructure at the campus is modern and upgraded. AIT Pune facilities are a library, boys hostels, girls hostels, gym, wifi, medical centre etc. The campus of Army Institute of Technology has both indoor and outdoor sports facilities. The college has a cafeteria that serves delicious foods to the students. The institute has wifi for students. Army Institute of Technology facilities list also includes modern IT infrastructure, department-based laboratories, convenience store and an ATM. The facilities at the campus ensures students do not face any inconvenience.  ",
+              location:
+                "AIT is located at Dighi Hills, Alandi Road area in Pune, Maharashtra, India. Only wards of army personnel are allowed admission.",
+            },
+
+            {
+              city: "GHRCE Nagpur",
+              about:
+                "GH Raisoni College of Engineering, Nagpur is an autonomous college and was established in the year 1996. The GH Raisoni College of Engineering is approved by the All India Council for Technical Education (AICTE). The College offers undergraduate (B.Tech), postgraduate (M.Tech and MBA) and doctoral (Ph.D) courses in different specialisations. The GH Raisoni College of Engineering, Nagpur graded A++ by National Assessment and Accreditation Council (NAAC). According to NIRF 2023, the GHRCE Nagpur median salary offered to UG students is Rs 4,00,000 while for PG students is Rs 4,50,000. The college is affiliated to Rashtrasant Tukadoji Maharaj Nagpur University, Nagpur. ",
+              course:
+                "GH Raisoni College of Engineering, Nagpur offers undergraduate, postgraduate and doctoral courses.  The GHRCE Nagpur UG programmes include B.Tech in a variety of specialisations, whereas the GHRCE Nagpur PG courses are M.Tech and M.B.A. To apply for courses at the GH Raisoni College of Engineering, students must meet the required eligibility requirements. The streams in which GHRCE Nagpur courses are provided include Engineering and Architecture, Management, and Business administration. All the GH Raisoni College of Engineering courses are offered in full-time mode only. The GHRCE Nagpur fee structure and eligibility criteria differ from one course to another.  ",
+              admission:
+                "GHRCE Nagpur Admissions 2023: The college offers admissions at the undergraduate, postgraduate and doctoral levels. The performance of the students in the MHT-CET exam will be taken into consideration for the GHRCE Nagpur B.Tech admissions,  which will be followed by the counselling process. The GATE and MAH-MBA/CAT/MAT/XAT/CMAT/GMAT exams are taken into consideration for admission to the M.Tech. and M.B.A. programmes at GHRCE Nagpur, respectively. Further, students need to register for the counselling procedure conducted by DTE Maharashtra. The candidates should confirm their admission to the GHRCE Nagpur by submitting the required documents and paying the fees.",
+              placement:
+                "The college has a Training and Placement Cell that offers placement opportunities to students. The GHRCE Nagpur placement team trains the students to make sure they are hired by reputable companies. The GH Raisoni College of Engineering, Nagpur placement cell arranges training events including group discussions, mock interviews, workshops, guest lectures, and many more. The GHRCE Nagpur highest package offered to students of Computer Science and Engineering is Rs 10 lakhs while the GHRCE Nagpur average salary is Rs 4.12 lakhs. Below are the details of the GHRCE Nagpur placement procedure.",
+              facilities:
+                "GH Raisoni College of Engineering (GHRCE), Nagpur provides many infrastructural facilities to the students, staff and faculty members. The college has separate hostels for girls and boys students with all the necessary facilities. GHRCE Nagpur facilities include gym and sports for the students so that they can get involve in some physical activities. GHRCE Nagpur laboratories provide practical exposure to the students. Library with a varied collection of books, cafeteria to serve food to the students, medical facilities to cater to the medical needs, auditorium, transportation, etc are some other GH Raisoni College of Engineering facilities.",
+              location:
+                "Address: G H Raisoni College of Engineering, CRPF Gate, No.3, Hingna Road, Digdoh Hills, Nagpur, Maharashtra 440016.",
+            },
+
+            {
+              city: "RCOEM Nagpur",
+              about:
+                "Shri Ramdeobaba College of Engineering and Management (RCOEM), Nagpur is an autonomous private college established in the year 1984.  Shri Ramdeobaba College of Engineering and Management is affiliated to Rashtrasant Tukadoji Maharaj Nagpur University, Nagpur. The campus of the college is spread over an area of 13 acres and it has a total of 210 faculty members. Shri Ramdeobaba College of Engineering and Management is accredited by the National Assessment and Accreditation Council (NAAC). The institute has secured 119th rank in the engineering category in NIRF Ranking 2021.",
+              course:
+                "Shri Ramdeobaba College of Engineering and Management (RCOEM), Nagpur offers a total of 28 programmes at undergraduate, postgraduate and doctoral levels. A few of the courses offered by the institute are B.E Computer Science and Engineering, M.B.A., M.C.A, M.Tech, Structural Engineering, Ph.D Civil Engineering, etc. Shri Ramdeobaba College of Engineering and Management courses are offered in full-time mode except for the M.Tech. Geotechnical Engineering Part-Time course. The college courses are offered in engineering, computer applications and management streams. Shri Ramdeobaba College of Engineering and Management fees varies as per the level of degree. The total fee of all Bachelor of Engineering (B.E) courses is Rs. 6,00,000. At the postgraduate level, the total fee of Master of Technology (M.Tech.) programmes is Rs. 2,61,000. ",
+              admission:
+                "Shri Ramdeobaba College of Engineering and Management (RCOEM), Nagpur offers a total of 28 programmes at undergraduate, postgraduate and doctoral levels. A few of the courses offered by the institute are B.E Computer Science and Engineering, M.B.A., M.C.A, M.Tech, Structural Engineering, Ph.D Civil Engineering, etc. Shri Ramdeobaba College of Engineering and Management courses are offered in full-time mode except for the M.Tech. Geotechnical Engineering Part-Time course. The college courses are offered in engineering, computer applications and management streams. Shri Ramdeobaba College of Engineering and Management fees varies as per the level of degree. The total fee of all Bachelor of Engineering (B.E) courses is Rs. 6,00,000. At the postgraduate level, the total fee of Master of Technology (M.Tech.) programmes is Rs. 2,61,000. ",
+              placement:
+                "The career development & placement cell of the college is responsible for handling all Shri Ramdeobaba College of Engineering and Management (RCOEM), Nagpur placement activities. Every year, companies such as Amazon, Wipro, TCS, Capgemini, etc. participate in the RCOEM Nagpur placement drive and offer jobs to students. The career development & placement cell also trains students and prepares them for placements. It ogranises seminars, mock interviews, guest lectures, etc for students. Further, to prepare students for Shri Ramdeobaba College of Engineering and Management placements, aptitude tests are also conducted by the career development & placement cell. The college also collaborates with numerous corporations to provide industrial training to students. ",
+              facilities:
+                "Shri Ramdeobaba College of Engineering and Management (RCOEM), Nagpur provides adequate facilities to students and faculty members. The campus has modern and upgraded facilities. Shri Ramdeobaba College of Engineering and Management facilities are separate hostels for girls and boys students, a well-stocked library, modern gym & auditorium, cafeteria etc. Shri Ramdeobaba College of Engineering and Management has facilities for both indoor and outdoor sports. A medical centre is also present at the campus for students and faculty members. Department-based laboratories are also there for students. A convenience store, parking space, UCO Bank branch and an ATM are a few more RCOEM Nagpur facilities available for students and faculty members. ",
+              location:
+                "RCOEM Nagpur is located 2.6 km away from the Nagpur Bus Stop.",
+            },
+          ],
+        },
+      ];
+
+      let selectedName = "";
+      let selectedCity = "";
+      let selectedItemDetails = null;
+
+      function handleNameChange(event) {
+        selectedName = event.target.value;
+        setDisplayDetails(false);
+        updateCityDropdown();
+      }
+
+      function updateCityDropdown() {
+        const selectCity = document.getElementById("selectCity");
+        selectCity.innerHTML = '<option value="">Select a city</option>';
+
+        if (selectedName) {
+          const selectedCityDetails = itemArr.find(
+            (item) => item.name === selectedName
+          )?.detail;
+          if (selectedCityDetails) {
+            selectedCityDetails.forEach((cityDetail) => {
+              const option = document.createElement("option");
+              option.value = cityDetail.city;
+              option.textContent = cityDetail.city;
+              selectCity.appendChild(option);
+            });
+          }
+        }
+      }
+
+      function handleCityChange(event) {
+        selectedCity = event.target.value;
+        setDisplayDetails(false);
+      }
+
+      function handleDisplayDetails() {
+        const selectedItem = itemArr.find((item) => item.name === selectedName);
+        if (selectedItem) {
+          const selectedCityDetails = selectedItem.detail.find(
+            (cityDetail) => cityDetail.city === selectedCity
+          );
+          selectedItemDetails = selectedCityDetails;
+          setDisplayDetails(true);
+        }
+      }
+
+      function setDisplayDetails(display) {
+        const displayContainer = document.getElementById("displayDetails");
+        displayContainer.innerHTML = "";
+
+        if (display && selectedItemDetails) {
+          const detailsHTML = `
+
+                                    <h2>College: ${selectedCity}</h2>
+                                    <p class="paragraph-detail"><h2>About:</h2><span class="initial">
+                    ${selectedItemDetails.about.substring(0, 100)}
+                    <span class="dots">...</span>
+                    <span id="read-more-link">Read more</span>
+                </span>
+                <span class="full">${selectedItemDetails.about}</span>
+                <span id="read-less-link">Read less</span></p>
+                                    <p class="paragraph-detail"><h2>Course:</h2> ${
+                                      selectedItemDetails.course
+                                    }</p>
+                                    <p class="paragraph-detail"><h2>Admission:</h2> ${
+                                      selectedItemDetails.admission
+                                    }</p>
+                                    <p class="paragraph-detail"><h2>Placement:</h2> ${
+                                      selectedItemDetails.placement
+                                    }</p>
+                                    <p class="paragraph-detail"><h2>Facilities:</h2> ${
+                                      selectedItemDetails.facilities
+                                    }</p>
+                                    <p class="paragraph-detail"><h2>Location:</h2> ${
+                                      selectedItemDetails.location
+                                    }</p>
+                                `;
+          displayContainer.innerHTML = detailsHTML;
+        }
+      }
+      document.addEventListener("DOMContentLoaded", setupReadMore);
+    </script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,510 @@
+<html>
+  <head>
+    <title>College Predictor</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <style>
+      body {
+        /* background-image: url("/static/back.jpeg"); */
+        background-color: beige;
+      }
+
+      .jumbotron {
+        margin-top: 5rem;
+      }
+      .display-4 {
+        padding-bottom: 2rem;
+      }
+      .second {
+        height: 80%;
+      }
+      .navbar {
+        background: linear-gradient(to right, #ff8c00, #ff4500);
+      }
+      .nav-link {
+        text-decoration: none;
+        color: black;
+        font-size: 1.3rem;
+        font-weight: 500;
+      }
+      /* .nav-link:hover {
+        color: orange;
+        font-size: 1.6rem;
+      } */
+      .navbar-brand {
+        text-decoration: none;
+        color: black;
+        font-size: 1.6rem;
+        font-weight: 700;
+      }
+      .nav-item {
+        transition: background 0.2s ease;
+      }
+      .nav-item:hover {
+        border-radius: 1.5rem;
+      }
+      .btn {
+        background-color: #ff8c00;
+      }
+      .btn:hover {
+        background: linear-gradient(to right, #ff8c00, #ff4500);
+      }
+      .active {
+        background-color: white;
+        border-radius: 1.2rem;
+        font-size: 1.6rem;
+      }
+      .display-4 {
+        font-size: 2.5rem;
+        font-weight: 700;
+      }
+      .lead {
+        font-weight: 500;
+      }
+
+      /* footer */
+      .container-fluid {
+        background-color: #f57c00;
+        width: 100%;
+        margin-top: 250px;
+        margin-bottom: 0px !important;
+        position: relative;
+        padding: 120px 80px 23.5px 80px;
+        bottom: 0 !important;
+      }
+
+      @media screen and (max-width: 576px) {
+        .container-fluid {
+          padding-top: 350px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+
+      .form-card input {
+        padding: 5px 2px 3px 2px;
+        border: none;
+        border-bottom: 1px solid lightgrey;
+        border-radius: 0px;
+        margin-top: 2px;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: montserrat;
+        color: #2c3e50;
+        font-size: 20px;
+        letter-spacing: 1px;
+      }
+
+      .form-card input:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: none;
+        border-bottom: 1px solid #f57c00;
+        outline-width: 0;
+      }
+
+      .row-1 {
+        border: 1px solid #f57c00;
+        background-color: #fff;
+        position: absolute;
+        top: -200px;
+        margin-right: 65px;
+      }
+
+      @media screen and (max-width: 576px) {
+        .row-1 {
+          margin-right: 5px;
+          padding-left: 10px;
+        }
+
+        .form-card input {
+          margin-left: 10px;
+        }
+      }
+
+      .heading {
+        color: #f57c00;
+      }
+
+      .btn-orange {
+        background-color: #f57c00;
+        color: #fff !important;
+        height: 40px;
+        padding: 2px 10px 6px 10px !important;
+      }
+
+      .img-1 {
+        width: 120px;
+        height: 120px;
+        margin-top: 16px;
+        margin-bottom: 5px;
+      }
+
+      @media screen and (max-width: 576px) {
+        .img-1 {
+          visibility: hidden;
+        }
+      }
+
+      .row-2 {
+        border: 1px solid #f57c00;
+        background-color: #fb8c00;
+        color: #fff;
+        padding-top: 10px;
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .block-item {
+        text-align: center;
+        width: 20%;
+        margin-top: 20px;
+        padding-left: 3px;
+        padding-right: 3px;
+      }
+
+      @media screen and (max-width: 576px) {
+        .block-item {
+          width: 80%;
+          margin-right: auto;
+          margin-left: auto;
+        }
+      }
+
+      .fa {
+        font-size: 30px;
+      }
+
+      .desc {
+        font-size: 14px;
+      }
+
+      .block-footer {
+        padding-bottom: 20px;
+      }
+
+      .footer-headings {
+        color: #fff;
+        border-bottom: 1px #ffb74d solid;
+        padding-bottom: 10px;
+      }
+
+      .list-items {
+        color: #fff;
+        margin-bottom: 0px;
+        font-size: 14px;
+      }
+
+      @media screen and (max-width: 576px) {
+        .block-footer {
+          width: 80%;
+          margin-right: auto;
+          margin-left: auto;
+        }
+      }
+
+      .img-g {
+        width: 120px;
+        height: 50px;
+      }
+
+      .border-left {
+        border-left: #ffb74d 1px solid !important;
+        padding-left: 20px !important;
+      }
+
+      @media screen and (max-width: 576px) {
+        .border-left {
+          border-left: none !important;
+          padding-left: 0 !important;
+        }
+      }
+
+      .fa-sm {
+        font-size: 15px;
+        color: #fff;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 10px;
+      }
+      /* .img-fluid {
+        max-width: 100%;
+        /* height: auto;} */
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm mb-3">
+      <div class="container">
+        <a href="#" class="navbar-brand">College Predictor</a>
+        <button
+          class="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#Nav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="Nav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a href="#" class="nav-link">HOME</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{url_for('colleges')}}" class="nav-link">COLLEGES</a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{{url_for('about')}}" class="nav-link" id="about-link"
+                >DETAILS</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="{{url_for('exam')}}" class="nav-link" id="about-link"
+                >EXAM</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="jumbotron text-center">
+        <h4 class="display-4 mb-2">
+          Welcome to College Predictor Using Machine Learning
+        </h4>
+        <div class="row">
+          <div class="col-sm-7">
+            <div
+              id="slider4"
+              class="carousel slide mb-2 m-auto"
+              data-ride="carousel"
+            >
+              <ol class="carousel-indicators">
+                <li
+                  class="active"
+                  data-target="#slider4"
+                  data-slide-to="0"
+                ></li>
+                <li data-target="#slider4" data-slide-to="1"></li>
+                <li data-target="#slider4" data-slide-to="2"></li>
+              </ol>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img
+                    class="d-block img-fluid"
+                    src="/static/mumbai.jpg"
+                    alt="First Slide"
+                    height="300"
+                    width="700"
+                  />
+                  <div class="carousel-caption d-none d-md-block">
+                    <h3>Mumbai University</h3>
+                    <a href="{{url_for('colleges')}}" class="nav-link"
+                      >Check your allotment to Mumbai University colleges</a
+                    >
+                    <!-- <p>Check your allotment to Mumbai University colleges</p> -->
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <img
+                    class="d-block img-fluid second"
+                    src="/static/2.jpg"
+                    height="300"
+                    width="700"
+                    alt="Second Slide"
+                  />
+                  <div class="carousel-caption d-none d-md-block">
+                    <h3>Pune University Colleges</h3>
+                    <a href="{{url_for('colleges')}}" class="nav-link"
+                      >Check your allotment to SPPU University colleges</a
+                    >
+                    <!-- <p>Check your allotment to SPPU University colleges</p> -->
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <img
+                    class="d-block img-fluid"
+                    src="/static/kolhapur.jpg"
+                    height="300"
+                    width="700"
+                    alt="Third Slide"
+                  />
+                  <div class="carousel-caption d-none d-md-block">
+                    <h3>Shivaji University</h3>
+                    <a href="{{url_for('colleges')}}" class="nav-link"
+                      >Check your allotment to Shivaji University colleges</a
+                    >
+                    <!-- <p>Check your allotment to Shivaji University colleges</p> -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- CONTROLS -->
+              <a
+                href="#slider4"
+                class="carousel-control-prev"
+                data-slide="prev"
+              >
+                <span class="carousel-control-prev-icon"></span>
+              </a>
+
+              <a
+                href="#slider4"
+                class="carousel-control-next"
+                data-slide="next"
+              >
+                <span class="carousel-control-next-icon"></span>
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-5 mt-3">
+            <p class="monospace lead">
+              College Allotment Predictor is web based application in which
+              students can check whether they can get allotment to a specific
+              college. College allotment Predictor is a simple and user-friendly
+              application
+            </p>
+
+            <a class="btn btn-lg" href="/colleges" role="button">PREDICT NOW</a>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <div class="container-fluid mx-auto">
+          <div class="row justify-content-center mt-4 row-1">
+            <div class="col-md-10">
+              <div class="row mt-2">
+                <div class="col-md-6">
+                  <h1 class="heading">Newsletter Signup</h1>
+                  <p>
+                    Get Information on various college and examination by
+                    subscribing Us!!!
+                  </p>
+                </div>
+                <div class="col-md-6">
+                  <form class="form-card row mt-5">
+                    <div class="form-group">
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter Your Email ID"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <input
+                        class="btn btn-orange"
+                        type="submit"
+                        name="submit"
+                        value="Subscribe Now"
+                      />
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="terms d-flex pb-3">
+                <small
+                  >College Allotment Predictor is web based application in which
+                  students can check whether they can get allotment to a
+                  specific college. College allotment Predictor is a simple and
+                  user-friendly application</small
+                >
+              </div>
+            </div>
+            <div class="col-md-2">
+              <!-- <img class="img-1" src="https://i.imgur.com/jBlQcMI.png" /> -->
+            </div>
+          </div>
+
+          <div class="row d-flex pb-4 px-4">
+            <div class="col-md-8">
+              <div class="row d-flex justify-content-between">
+                <div class="d-flex flex-column block-footer">
+                  <h5 class="footer-headings"><a href="#" class="nav-link">About</a></h5>
+                  <p class="list-items">About Us</p>
+
+                  <p class="list-items">Contact : 9565458565</p>
+
+                  <p class="list-items">Email: shivamk2745@gmail.com</p>
+                </div>
+                <div class="d-flex flex-column block-footer">
+                  <h5 class="footer-headings"><a href="{{url_for('about')}}" class="nav-link" id="about-link"
+                >TOP DETAILS</a
+              ></h5>
+                  <p class="list-items">Top IIT</p>
+                  <p class="list-items">Top NIT</p>
+                  <p class="list-items">Top Private Colleges</p>
+                </div>
+                <div class="d-flex flex-column block-footer">
+                  <h5 class="footer-headings"><a href="{{url_for('exam')}}" class="nav-link" id="about-link"
+                >Examination Details</a
+              ></h5>
+                  <p class="list-items">JEE Mains</p>
+                  <p class="list-items">NEET</p>
+                  <p class="list-items">MHT-CET</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              
+                <div class="d-flex flex-column pl-md-2 border-left pb-3">
+                  <h5 class="footer-headings mb-3"><a href="#" class="nav-link">Follow Us</a></h5>
+                  <div class="row d-flex pl-2">
+                    <div class="fa fa-sm fa-facebook"></div>
+                    <div class="fa fa-sm fa-twitter"></div>
+                    <div class="fa fa-sm fa-google-plus"></div>
+                    <div class="fa fa-sm fa-pinterest"></div>
+                    <div class="fa fa-sm fa-linkedin"></div>
+                    <div class="fa fa-sm fa-youtube-play"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+  <script>
+    $(".carousel").carousel({
+      interval: 3000,
+      keyboard: true,
+      pause: "hover",
+      wrap: true,
+    });
+
+    $("#slider4").on("slide.bs.carousel", function () {
+      console.log("SLIDE!");
+    });
+
+    $("#slider4").on("slid.bs.carousel", function () {
+      console.log("SLID!");
+    });
+  </script>
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"
+  ></script>
+</html>
